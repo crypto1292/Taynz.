@@ -53,6 +53,9 @@ input:not([type=checkbox]),textarea,select{
 }
 input:focus,textarea:focus,select:focus{border-color:var(--pink)}
 textarea{resize:vertical;min-height:125px}
+input[type=date]{-webkit-appearance:none;appearance:none;display:block;min-width:0;max-width:100%;min-height:50px;text-align:left}
+input[type=date]::-webkit-date-and-time-value{text-align:left;min-height:1.2em}
+input[type=date]::-webkit-datetime-edit{padding:0}
 button{border:0;border-radius:14px;padding:12px 15px;font-weight:750}
 .primary{background:linear-gradient(110deg,var(--btn-a),var(--btn-b));color:#fff;width:100%}
 .secondary{background:var(--panel2);color:var(--text);border:1px solid var(--line2)}
