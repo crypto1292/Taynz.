@@ -1,0 +1,18 @@
+{
+  "name": "Taynz. \u2014 Your cycle. Your health. Together.",
+  "short_name": "Taynz.",
+  "description": "Taynz. \u2014 A gentle, private cycle and wellness companion.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f8f5ed",
+  "theme_color": "#f8f5ed",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
