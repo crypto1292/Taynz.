@@ -1,1597 +1,762 @@
 
-
 <!doctype html>
-
 <html lang="en">
-
 <head>
-
 <meta charset="utf-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-
-<meta name="theme-color" content="#faf8f4">
-
+<meta name="theme-color" content="#111114">
 <meta name="description" content="Taynz. — your cycle, your health, together.">
-
 <link rel="manifest" href="manifest.json">
-
 <link rel="icon" href="icon.svg" type="image/svg+xml">
-
-<title>Taynz. — Your cycle. Your health. Together.</title>
+<title>Taynz. — Your cycle, your health.</title>
 
 <style>
-
-:root {
-
-  --bg:#faf8f4;
-
-  --paper:#ffffff;
-
-  --ink:#293b31;
-
-  --muted:#899087;
-
-  --line:#eeece6;
-
-  --sage:#e7eee4;
-
-  --green:#58745d;
-
-  --green-dark:#345640;
-
-  --rose:#d9a2ac;
-
-  --rose-light:#f6e8e9;
-
-  --lav:#eee9f5;
-
-  --sand:#f5eddd;
-
-  --shadow:0 5px 24px rgba(45,57,44,.045);
-
-  --ring:#a9bda1;
-
+:root{
+  --bg:#111114;
+  --surface:#1b1b20;
+  --surface2:#232329;
+  --pink:#ff3f83;
+  --red:#ff5364;
+  --text:#f8f7fa;
+  --muted:#9997a3;
+  --line:#303037;
+  --soft:#34212c;
+  --radius:22px;
 }
-
 *{box-sizing:border-box}
-
-html{background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-
-body{margin:0;min-height:100vh;background:var(--bg)}
-
+html{background:var(--bg);color:var(--text);
+font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",
+"Segoe UI",sans-serif;scroll-behavior:smooth}
+body{margin:0;background:var(--bg);min-height:100vh}
 button,input,select,textarea{font:inherit}
-
 button{cursor:pointer;border:0}
-
-button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--green);outline-offset:3px}
-
-.app{max-width:480px;margin:auto;min-height:100vh;padding:env(safe-area-inset-top) 20px calc(100px + env(safe-area-inset-bottom))}
-
-.top{display:flex;align-items:center;justify-content:space-between;padding:21px 0 27px}
-
-.brand{font-size:29px;letter-spacing:-1.5px;font-weight:750;color:var(--ink)}
-
-.tagline{font-size:10px;letter-spacing:1.2px;color:var(--muted);margin-top:3px}
-
-.iconbtn{height:42px;width:42px;border-radius:50%;background:white;border:1px solid var(--line);color:var(--ink);font-size:19px}
-
+button:focus-visible,input:focus-visible,select:focus-visible{
+outline:2px solid var(--pink);outline-offset:3px
+}
+.app{
+max-width:500px;margin:auto;min-height:100vh;
+padding:env(safe-area-inset-top) 19px
+calc(105px + env(safe-area-inset-bottom))
+}
+.top{display:flex;justify-content:space-between;
+align-items:center;padding:18px 0 25px}
+.brand{font-size:29px;font-weight:850;letter-spacing:-1.5px}
+.brand span{color:var(--pink)}
+.tagline{font-size:10px;color:var(--muted);
+letter-spacing:1.5px;text-transform:uppercase;margin-top:4px}
+.iconbtn{height:43px;width:43px;border-radius:50%;
+background:var(--surface);color:white;font-size:20px;
+border:1px solid var(--line)}
 .screen{display:none;animation:fade .2s ease}
-
 .screen.active{display:block}
-
-@keyframes fade{from{opacity:.5;transform:translateY(3px)}to{opacity:1;transform:none}}
-
-.eyebrow{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);font-weight:700}
-
-h1{font-size:28px;letter-spacing:-1px;line-height:1.2;margin:8px 0}
-
-h2{font-size:18px;letter-spacing:-.4px;margin:0 0 13px}
-
+@keyframes fade{from{opacity:.4;transform:translateY(4px)}
+to{opacity:1;transform:none}}
+h1{font-size:29px;letter-spacing:-1px;margin:5px 0 9px}
+h2{font-size:18px;letter-spacing:-.3px;margin:0 0 14px}
 h3{font-size:14px;margin:0 0 5px}
-
-p{line-height:1.55}
-
+p{line-height:1.5}
 .muted{color:var(--muted)}
-
 .small{font-size:12px}
+.eyebrow{font-size:10px;font-weight:800;letter-spacing:1.8px;
+text-transform:uppercase;color:var(--pink)}
+.intro{color:var(--muted);font-size:13px;margin:0 0 23px}
+.homehead{margin:3px 0 0}
+.homehead h1{font-size:25px;margin-top:7px}
+.homehead p{font-size:13px;color:var(--muted);margin:0}
 
-.intro{font-size:13px;color:var(--muted);margin:5px 0 20px}
-
-.card{background:var(--paper);border:1px solid var(--line);border-radius:23px;padding:19px;margin-bottom:13px;box-shadow:var(--shadow)}
-
-/* Main circular tracker */
-
-.cycle-hero{background:#fff;border:1px solid var(--line);border-radius:29px;padding:23px 16px 21px;text-align:center;margin-bottom:13px;box-shadow:var(--shadow)}
-
-.hero-eyebrow{font-size:10px;letter-spacing:1.8px;color:var(--muted);font-weight:750}
-
-.tracker{width:min(270px,78vw);aspect-ratio:1;position:relative;margin:15px auto 13px}
-
-.tracker svg{width:100%;height:100%;overflow:visible;display:block}
-
-.ring-track{fill:none;stroke:#efeee9;stroke-width:12}
-
-.ring-progress{fill:none;stroke:var(--ring);stroke-width:12;stroke-linecap:round;transform:rotate(-90deg);transform-origin:130px 130px;transition:stroke-dashoffset .4s,stroke .3s}
-
-.ring-inner{fill:#fff}
-
-.ring-dot{fill:var(--ring);stroke:white;stroke-width:3}
-
-.ring-caption{font-size:11px;fill:var(--muted);letter-spacing:1.3px}
-
-.ring-number{font-size:56px;font-weight:650;letter-spacing:-2.8px;fill:var(--ink)}
-
-.ring-total{font-size:12px;fill:var(--muted)}
-
-.phase-label{font-size:19px;font-weight:650;letter-spacing:-.4px;margin:0 0 7px}
-
-.phase-description{font-size:12px;color:var(--muted);margin:0 auto;max-width:290px;line-height:1.5}
-
-.phase-pill{display:inline-flex;align-items:center;gap:6px;padding:7px 11px;border-radius:30px;background:var(--sage);color:var(--green-dark);font-size:10px;font-weight:750;letter-spacing:.3px;margin-bottom:10px}
-
-.phase-pill:before{content:"";width:6px;height:6px;border-radius:50%;background:var(--ring)}
-
-.hero-bottom{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:23px;text-align:left}
-
-.mini-stat{border-radius:17px;background:#faf8f4;padding:14px}
-
-.mini-stat.rose{background:var(--rose-light)}
-
-.stat-label{font-size:9px;letter-spacing:1.1px;color:var(--muted);font-weight:750}
-
-.stat-value{font-size:16px;font-weight:700;letter-spacing:-.3px;margin-top:6px}
-
-.stat-sub{font-size:10px;color:var(--muted);margin-top:4px}
-
-.sectionhead{display:flex;justify-content:space-between;align-items:center;margin:25px 2px 12px}
-
+/* CIRCULAR CYCLE TRACKER */
+.tracker-wrap{display:flex;justify-content:center;
+align-items:center;margin:15px 0 21px}
+.tracker{width:min(82vw,320px);aspect-ratio:1;position:relative}
+.tracker svg{width:100%;height:100%;overflow:visible;
+transform:rotate(-90deg)}
+.track{fill:none;stroke:#29262d;stroke-width:10}
+.progress{fill:none;stroke:url(#cycleGradient);
+stroke-width:10;stroke-linecap:round;
+transition:stroke-dashoffset .5s ease}
+.ring-glow{fill:none;stroke:#ff3f83;stroke-width:2;
+opacity:.18}
+.tracker-center{position:absolute;inset:0;
+display:flex;align-items:center;justify-content:center;
+flex-direction:column;text-align:center}
+.day-caption{font-size:10px;font-weight:800;
+letter-spacing:2.5px;color:#c4a8b6}
+.day-number{font-size:79px;line-height:1;
+font-weight:750;letter-spacing:-6px;margin:7px 0 8px}
+.phase-label{font-size:12px;color:#ff86ad;
+background:#321d29;border:1px solid #54263b;
+padding:8px 15px;border-radius:99px;font-weight:700}
+.ring-caption{font-size:11px;color:var(--muted);margin-top:13px}
+.period-summary{display:grid;grid-template-columns:1fr 1fr;
+gap:10px;margin-bottom:23px}
+.summary-item{background:var(--surface);border:1px solid var(--line);
+border-radius:18px;padding:15px}
+.summary-label{font-size:11px;color:var(--muted);margin-bottom:9px}
+.summary-value{font-size:20px;font-weight:750;letter-spacing:-.5px}
+.summary-value em{font-size:11px;color:var(--muted);
+font-weight:500;font-style:normal;letter-spacing:0}
+.summary-dot{display:inline-block;width:7px;height:7px;
+border-radius:50%;background:var(--pink);margin-right:6px}
+.sectionhead{display:flex;justify-content:space-between;
+align-items:center;margin:26px 0 12px}
 .sectionhead h2{margin:0}
+.textbtn{background:none;color:var(--pink);font-size:12px;
+font-weight:750;padding:8px 0}
+.quick-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.action{
+display:flex;align-items:center;gap:12px;text-align:left;
+background:var(--surface);color:var(--text);
+border:1px solid var(--line);border-radius:18px;
+padding:15px 12px;min-width:0
+}
+.action-icon{width:41px;height:41px;display:grid;
+place-items:center;flex-shrink:0;border-radius:14px;
+background:#35202c;color:#ff75a4;font-size:21px}
+.action:nth-child(2) .action-icon{background:#332326;color:#ff7b78}
+.action:nth-child(3) .action-icon{background:#252439;color:#c3a8ff}
+.action:nth-child(4) .action-icon{background:#27342e;color:#9be2bb}
+.action strong{display:block;font-size:12px}
+.action small{display:block;color:var(--muted);
+font-size:10px;margin-top:4px;line-height:1.35}
+.card{background:var(--surface);border:1px solid var(--line);
+border-radius:var(--radius);padding:17px;margin-bottom:13px}
+.tip{display:flex;gap:12px;align-items:flex-start}
+.tipicon{width:39px;height:39px;flex-shrink:0;
+display:grid;place-items:center;background:#34212c;
+border-radius:13px;font-size:18px}
+.tip p{font-size:12px;color:var(--muted);margin:3px 0 0}
+.notice{background:#2c2028;border:1px solid #49303b;
+border-radius:15px;padding:13px;font-size:11px;
+line-height:1.5;color:#e6bdcc;margin:14px 0}
 
-.textbtn{background:transparent;color:var(--green);font-weight:700;font-size:12px;padding:6px}
+/* BOTTOM NAVIGATION */
+.nav{position:fixed;z-index:10;bottom:0;left:50%;
+transform:translateX(-50%);width:min(500px,100%);
+display:grid;grid-template-columns:repeat(5,1fr);
+background:#19191eed;backdrop-filter:blur(20px);
+border-top:1px solid var(--line);
+padding:10px 8px calc(10px + env(safe-area-inset-bottom))}
+.nav button{background:none;color:#85828e;font-size:10px;
+font-weight:650;display:flex;flex-direction:column;
+align-items:center;gap:5px;padding:4px 0}
+.nav button span{font-size:20px;line-height:25px}
+.nav button.active{color:var(--pink)}
+.nav button.active span{color:var(--pink)}
 
-.quick-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}
-
-.quick-card{border:1px solid transparent;border-radius:22px;padding:17px;text-align:left;min-height:139px;color:var(--ink);transition:transform .15s}
-
-.quick-card:active,.primary:active{transform:scale(.98)}
-
-.quick-card .qicon{width:38px;height:38px;display:grid;place-items:center;border-radius:13px;background:#ffffffb8;font-size:20px;margin-bottom:17px}
-
-.quick-card h3{font-size:14px}
-
-.quick-card p{font-size:11px;color:#7f877e;margin:5px 0 0;line-height:1.5}
-
-.q-rose{background:#f6e8e9}
-
-.q-sage{background:#e8eee5}
-
-.q-sand{background:#f5eddd}
-
-.q-lav{background:#eee9f5}
-
-.tip-card{display:flex;align-items:flex-start;gap:13px}
-
-.tip-icon{width:42px;height:42px;flex-shrink:0;border-radius:15px;background:var(--sage);display:grid;place-items:center;font-size:19px}
-
-.tip-card p{font-size:12px;color:var(--muted);margin:4px 0 0}
-
-.notice{background:#f5eddd;color:#776747;padding:14px 15px;border-radius:16px;font-size:11px;line-height:1.55;margin:14px 0}
-
-.nav{position:fixed;z-index:10;bottom:0;left:50%;transform:translateX(-50%);width:min(480px,100%);padding:10px 12px calc(10px + env(safe-area-inset-bottom));background:#fffdf9ed;backdrop-filter:blur(20px);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(5,1fr)}
-
-.nav button{background:none;color:#969b93;font-size:10px;font-weight:650;display:flex;flex-direction:column;align-items:center;gap:5px;padding:4px 0}
-
-.nav button span{font-size:20px;line-height:25px;width:40px;height:27px}
-
-.nav button.active{color:var(--green-dark)}
-
-.nav button.active span{background:var(--sage);border-radius:15px}
-
-.field{display:flex;flex-direction:column;gap:7px;margin:14px 0}
-
-.field label{font-size:12px;font-weight:700;color:#657267}
-
-.field input,.field select,.field textarea{width:100%;border:1px solid var(--line);background:#fff;border-radius:14px;padding:13px;color:var(--ink);outline-color:var(--green)}
-
-.field textarea{resize:vertical}
-
-.primary,.secondary,.danger{border-radius:30px;padding:13px 16px;font-size:12px;font-weight:750}
-
-.primary{background:var(--green-dark);color:white;width:100%}
-
-.secondary{background:var(--sage);color:var(--green-dark)}
-
-.danger{background:#f8e8e8;color:#9b4050}
-
+/* FORMS AND CALENDAR */
+.field{display:flex;flex-direction:column;gap:8px;margin:14px 0}
+.field label{font-size:12px;font-weight:700;color:#c7c4ce}
+.field input,.field select,.field textarea{
+width:100%;padding:13px 14px;border:1px solid var(--line);
+background:#242329;color:var(--text);border-radius:13px;
+outline-color:var(--pink);min-width:0}
+.field select option{background:#242329;color:white}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.primary,.secondary,.danger{
+border-radius:99px;padding:13px 16px;font-size:13px;
+font-weight:750;width:100%;margin-top:5px}
+.primary{background:linear-gradient(100deg,var(--pink),var(--red));
+color:white}
+.secondary{background:#30202a;color:#ff8eb4;border:1px solid #4d2c3c}
+.danger{background:#392025;color:#ff8a91}
 .buttonrow{display:flex;gap:9px}
-
-.buttonrow>*{flex:1}
-
-.calendarhead{display:flex;justify-content:space-between;align-items:center;margin:5px 0 17px}
-
-.calendarhead button{background:var(--sage);border-radius:50%;width:35px;height:35px;color:var(--green-dark);font-size:20px}
-
-.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
-
-.dayname{text-align:center;font-size:10px;color:var(--muted);padding:8px 0}
-
-.day{aspect-ratio:1;border-radius:50%;background:transparent;color:var(--ink);display:grid;place-items:center;font-size:12px;position:relative}
-
-.day.other{color:#c6c8c1}
-
-.day.period{background:var(--rose-light);color:#a45262}
-
-.day.fertile{background:var(--sage);color:var(--green-dark)}
-
-.day.ovulation{background:var(--green-dark);color:white}
-
-.day.today{outline:1.5px solid var(--green);outline-offset:1px}
-
-.legend{display:flex;gap:12px;flex-wrap:wrap;font-size:10px;color:var(--muted);margin-top:17px}
-
-.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px}
-
+.buttonrow>*{flex:1;min-width:0}
+.calendarhead{display:flex;justify-content:space-between;
+align-items:center;margin:10px 0 16px}
+.calendarhead button{background:var(--surface2);color:white;
+border-radius:11px;padding:8px 13px}
+.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+.dayname{text-align:center;color:var(--muted);font-size:10px;padding:7px 0}
+.day{aspect-ratio:1;border-radius:50%;background:transparent;
+color:var(--text);display:grid;place-items:center;font-size:12px}
+.day.other{color:#55535e}
+.day.period{background:#6c293f;color:#ffb3cb}
+.day.fertile{background:#283d35;color:#a5e5bf}
+.day.ovulation{background:var(--pink);color:#211016}
+.day.today{outline:2px solid white;outline-offset:1px}
+.legend{display:flex;gap:12px;flex-wrap:wrap;
+font-size:10px;color:var(--muted);margin-top:15px}
+.dot{display:inline-block;width:8px;height:8px;
+border-radius:50%;margin-right:5px}
 .symgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-
-.symptom{border:1px solid var(--line);background:white;border-radius:15px;padding:12px 10px;text-align:left;color:var(--ink);display:flex;align-items:center;gap:8px;font-size:12px}
-
-.symptom.selected{border-color:var(--rose);background:var(--rose-light);color:#984b5b}
-
+.symptom{border:1px solid var(--line);background:#242329;
+color:var(--text);border-radius:14px;padding:12px;
+text-align:left;display:flex;align-items:center;gap:8px;font-size:12px}
 .symptom span{font-size:18px}
-
+.symptom.selected{border-color:var(--pink);
+background:#38202d;color:#ff9fbe}
+.phase-tabs{display:flex;gap:7px;overflow:auto;margin:15px 0}
+.phase-tabs button{white-space:nowrap;border-radius:99px;
+padding:10px 13px;background:var(--surface);
+color:var(--muted);font-size:11px;font-weight:750;
+border:1px solid var(--line)}
+.phase-tabs button.active{background:var(--pink);
+color:#211016;border-color:var(--pink)}
 .foodgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-
-.food{background:var(--bg);border-radius:15px;padding:13px 5px;text-align:center;font-size:10px;color:#536153;line-height:1.4}
-
-.food span{display:block;font-size:24px;margin-bottom:8px}
-
-.phase-tabs{display:flex;gap:6px;overflow-x:auto;margin:15px 0;scrollbar-width:none}
-
-.phase-tabs button{white-space:nowrap;border-radius:30px;padding:9px 13px;background:white;color:var(--muted);font-size:11px;font-weight:700;border:1px solid var(--line)}
-
-.phase-tabs button.active{background:var(--green-dark);color:white;border-color:var(--green-dark)}
-
-.empty{text-align:center;padding:20px 8px}
-
-.empty .emoji{font-size:30px}
-
-.sharepreview{background:linear-gradient(135deg,#e8eee5,#f6e8e9);border-radius:22px;padding:23px;text-align:center;margin-bottom:13px}
-
-.sharepreview .heart{font-size:33px}
-
+.food{background:#242329;border-radius:14px;padding:12px 5px;
+text-align:center;font-size:10px;color:#dedbe4}
+.food span{display:block;font-size:24px;margin-bottom:7px}
+.tiprow{display:flex;gap:11px;padding:12px 0;
+border-bottom:1px solid var(--line)}
+.tiprow:last-child{border:0}
+.tiprow p{font-size:12px;color:var(--muted);margin:3px 0 0}
+.checkline{display:flex;align-items:center;gap:9px;
+font-size:12px;margin:13px 0;color:#e1dee6}
+.checkline input{accent-color:var(--pink)}
+.sharepreview{background:linear-gradient(135deg,#38202d,#292027);
+border:1px solid #573046;border-radius:19px;padding:20px;
+text-align:center;margin-bottom:14px}
+.sharepreview .heart{font-size:36px;color:var(--pink)}
+.empty{text-align:center;padding:20px 8px;color:var(--muted);font-size:12px}
+.footnote{font-size:10px;line-height:1.5;color:var(--muted)}
 .hidden{display:none!important}
-
-.toast{position:fixed;bottom:105px;left:50%;transform:translateX(-50%);background:var(--ink);color:white;padding:12px 18px;border-radius:30px;font-size:12px;z-index:20;box-shadow:var(--shadow);max-width:90%;text-align:center}
-
-.footnote{font-size:10px;line-height:1.6;color:var(--muted)}
-
-.checkline{display:flex;align-items:center;gap:9px;font-size:12px;margin:13px 0}
-
-.checkline input{accent-color:var(--green)}
-
+.toast{position:fixed;bottom:105px;left:50%;transform:translateX(-50%);
+background:#f8f5f8;color:#211016;padding:12px 17px;
+border-radius:99px;font-size:12px;z-index:20;
+max-width:90%;text-align:center;box-shadow:0 5px 25px #0005}
 @media(min-width:520px){
-
- .app{padding-top:16px}
-
- .nav{bottom:14px;border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow)}
-
+.app{padding-top:12px}
+.nav{bottom:12px;border:1px solid var(--line);border-radius:22px}
 }
-
-@media(max-width:350px){
-
- .app{padding-left:14px;padding-right:14px}
-
- .cycle-hero{padding-left:10px;padding-right:10px}
-
- .tracker{width:235px}
-
-}
-
 </style>
-
 </head>
 
 <body>
-
 <div class="app">
-
 <header class="top">
-
   <div>
-
-    <div class="brand">Taynz.</div>
-
-    <div class="tagline">YOUR CYCLE. YOUR HEALTH. TOGETHER.</div>
-
+    <div class="brand">Taynz<span>.</span> <span style="font-size:17px">♡</span></div>
+    <div class="tagline">Your cycle. Your health. Together.</div>
   </div>
-
   <button class="iconbtn" aria-label="Settings" onclick="go('settings')">⚙</button>
-
 </header>
 
 <!-- HOME -->
-
 <section id="home" class="screen active">
+  <div class="homehead">
+    <div class="eyebrow">YOUR PERSONAL CYCLE</div>
+    <h1>Your cycle, at a glance.</h1>
+    <p>A little closer to understanding your body.</p>
+  </div>
 
-  <div class="cycle-hero">
-
-    <div class="hero-eyebrow">YOUR CYCLE</div>
-
-    <div class="tracker" aria-label="Circular cycle tracker">
-
-      <svg viewBox="0 0 260 260" role="img" aria-labelledby="trackerTitle trackerDesc">
-
-        <title id="trackerTitle">Your cycle tracker</title>
-
-        <desc id="trackerDesc">A circular progress ring showing your current cycle day.</desc>
-
-        <circle class="ring-track" cx="130" cy="130" r="104"/>
-
-        <circle id="ringProgress" class="ring-progress" cx="130" cy="130" r="104"
-
-          stroke-dasharray="653.45" stroke-dashoffset="653.45"/>
-
-        <circle class="ring-inner" cx="130" cy="130" r="83"/>
-
-        <g id="ringMarker" transform="rotate(0 130 130)">
-
-          <circle class="ring-dot" cx="130" cy="26" r="6"/>
-
-        </g>
-
-        <text id="ringCaption" class="ring-caption" x="130" y="104" text-anchor="middle">CYCLE DAY</text>
-
-        <text id="ringDay" class="ring-number" x="130" y="158" text-anchor="middle">—</text>
-
-        <text id="ringTotal" class="ring-total" x="130" y="181" text-anchor="middle">of 28 days</text>
-
+  <div class="tracker-wrap">
+    <div class="tracker">
+      <svg viewBox="0 0 300 300" role="img" aria-label="Cycle progress">
+        <defs>
+          <linearGradient id="cycleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#ff3f83"/>
+            <stop offset="100%" stop-color="#ff625d"/>
+          </linearGradient>
+        </defs>
+        <circle class="ring-glow" cx="150" cy="150" r="121"/>
+        <circle class="track" cx="150" cy="150" r="110"/>
+        <circle id="ringProgress" class="progress" cx="150" cy="150" r="110"
+          stroke-dasharray="691.15" stroke-dashoffset="691.15"/>
       </svg>
-
-    </div>
-
-    <div id="phasePill" class="phase-pill">YOUR CYCLE</div>
-
-    <h1 id="phaseName" class="phase-label">Get to know your cycle</h1>
-
-    <p id="phaseDescription" class="phase-description">Add the first day of your last period to see your cycle overview.</p>
-
-    <div class="hero-bottom">
-
-      <div class="mini-stat rose">
-
-        <div class="stat-label">NEXT PERIOD</div>
-
-        <div id="nextPeriodValue" class="stat-value">Not set</div>
-
-        <div id="nextPeriodSub" class="stat-sub">Add your cycle dates</div>
-
+      <div class="tracker-center">
+        <div class="day-caption">YOUR CYCLE DAY</div>
+        <div id="dayNumber" class="day-number">—</div>
+        <div id="phaseLabel" class="phase-label">Set up your cycle</div>
+        <div id="ringCaption" class="ring-caption">Your body, your rhythm.</div>
       </div>
-
-      <div class="mini-stat">
-
-        <div class="stat-label">CYCLE LENGTH</div>
-
-        <div id="cycleLengthValue" class="stat-value">28 days</div>
-
-        <div class="stat-sub">Your usual cycle</div>
-
-      </div>
-
     </div>
+  </div>
 
-    <button class="textbtn" style="margin-top:15px" onclick="go('cycle')">View cycle calendar →</button>
-
+  <div class="period-summary">
+    <div class="summary-item">
+      <div class="summary-label"><span class="summary-dot"></span>Next period</div>
+      <div class="summary-value" id="nextPeriod">Not set</div>
+      <div class="small muted" id="nextPeriodDate" style="margin-top:6px">Add your last period</div>
+    </div>
+    <div class="summary-item">
+      <div class="summary-label">Cycle length</div>
+      <div class="summary-value"><span id="homeLength">28</span> <em>days</em></div>
+      <div class="small muted" id="homePhase" style="margin-top:6px">Typical cycle</div>
+    </div>
   </div>
 
   <div class="sectionhead">
-
-    <h2>Your daily space</h2>
-
+    <h2>Quick access</h2>
+  </div>
+  <div class="quick-actions">
+    <button class="action" onclick="go('checkin')">
+      <span class="action-icon">♡</span>
+      <span><strong>Log symptoms</strong><small>How are you feeling?</small></span>
+    </button>
+    <button class="action" onclick="go('cycle')">
+      <span class="action-icon">▦</span>
+      <span><strong>Cycle calendar</strong><small>Dates & predictions</small></span>
+    </button>
+    <button class="action" onclick="go('wellness')">
+      <span class="action-icon">✳</span>
+      <span><strong>Wellness</strong><small>Tips for your phase</small></span>
+    </button>
+    <button class="action" onclick="go('share')">
+      <span class="action-icon">♡</span>
+      <span><strong>Share my cycle</strong><small>Support, your way</small></span>
+    </button>
   </div>
 
-  <div class="quick-grid">
-
-    <button class="quick-card q-rose" onclick="go('cycle')">
-
-      <span class="qicon">◷</span>
-
-      <h3>My cycle</h3>
-
-      <p>Dates, patterns and predictions</p>
-
-    </button>
-
-    <button class="quick-card q-sage" onclick="go('checkin')">
-
-      <span class="qicon">♡</span>
-
-      <h3>How I feel</h3>
-
-      <p>Check in with yourself</p>
-
-    </button>
-
-    <button class="quick-card q-sand" onclick="go('wellness')">
-
-      <span class="qicon">✳</span>
-
-      <h3>Wellness</h3>
-
-      <p>Food, rest and gentle ideas</p>
-
-    </button>
-
-    <button class="quick-card q-lav" onclick="go('share')">
-
-      <span class="qicon">♧</span>
-
-      <h3>Share my cycle</h3>
-
-      <p>Support from someone you trust</p>
-
-    </button>
-
+  <div class="sectionhead"><h2>A little reminder</h2></div>
+  <div class="card">
+    <div class="tip">
+      <div class="tipicon">✿</div>
+      <div><h3 id="tipTitle">Your body, your rhythm.</h3>
+        <p id="dailyTip">Start by adding your last period date to personalize your cycle overview.</p>
+      </div>
+    </div>
   </div>
-
-  <div class="sectionhead">
-
-    <h2>A little reminder</h2>
-
-    <button class="textbtn" onclick="go('wellness')">Explore →</button>
-
-  </div>
-
-  <div class="card tip-card" id="dailyTip"></div>
-
-  <div class="notice">Cycle dates and ovulation are estimates, not guarantees. Calendar predictions cannot reliably prevent pregnancy.</div>
-
+  <div class="notice">Cycle and ovulation dates are estimates, not guarantees. Calendar predictions should not be used as contraception.</div>
 </section>
 
 <!-- CYCLE -->
-
 <section id="cycle" class="screen">
-
   <div class="eyebrow">YOUR PATTERNS</div>
-
   <h1>Cycle calendar</h1>
-
-  <p class="intro">See your dates and update your cycle details.</p>
-
+  <p class="intro">Your period history and estimated cycle phases.</p>
   <div class="card">
-
     <div class="calendarhead">
-
       <button onclick="changeMonth(-1)" aria-label="Previous month">‹</button>
-
       <strong id="monthLabel"></strong>
-
       <button onclick="changeMonth(1)" aria-label="Next month">›</button>
-
     </div>
-
     <div class="calendar" id="calendar"></div>
-
     <div class="legend">
-
-      <span><i class="dot" style="background:var(--rose)"></i>Period</span>
-
-      <span><i class="dot" style="background:var(--sage)"></i>Fertile estimate</span>
-
-      <span><i class="dot" style="background:var(--green-dark)"></i>Ovulation estimate</span>
-
+      <span><i class="dot" style="background:#6c293f"></i>Period</span>
+      <span><i class="dot" style="background:#283d35"></i>Fertile estimate</span>
+      <span><i class="dot" style="background:#ff3f83"></i>Ovulation</span>
     </div>
-
-    <p class="footnote">Predicted days are estimates. Tap a date to set it as your last period's first day.</p>
-
   </div>
-
   <div class="card">
-
     <h2>Cycle details</h2>
-
-    <div class="field">
-
-      <label for="lastPeriod">First day of your last period</label>
-
-      <input id="lastPeriod" type="date">
-
+    <div class="field"><label for="lastPeriod">First day of your last period</label><input id="lastPeriod" type="date"></div>
+    <div class="grid">
+      <div class="field"><label for="cycleLength">Cycle length</label>
+        <select id="cycleLength">
+          <option>21</option><option>22</option><option>23</option><option>24</option><option>25</option><option>26</option><option>27</option><option selected>28</option><option>29</option><option>30</option><option>31</option><option>32</option><option>33</option><option>34</option><option>35</option><option>36</option>
+        </select>
+      </div>
+      <div class="field"><label for="periodLength">Period length</label>
+        <select id="periodLength">
+          <option>2</option><option>3</option><option>4</option><option selected>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option>
+        </select>
+      </div>
     </div>
-
-    <div class="field">
-
-      <label for="cycleLength">Typical cycle length</label>
-
-      <select id="cycleLength">
-
-        <option>21</option><option>22</option><option>23</option>
-
-        <option>24</option><option>25</option><option>26</option>
-
-        <option>27</option><option selected>28</option><option>29</option>
-
-        <option>30</option><option>31</option><option>32</option>
-
-        <option>33</option><option>34</option><option>35</option><option>36</option>
-
-      </select>
-
-    </div>
-
-    <div class="field">
-
-      <label for="periodLength">Usual period length</label>
-
-      <select id="periodLength">
-
-        <option>2</option><option>3</option><option>4</option>
-
-        <option selected>5</option><option>6</option><option>7</option>
-
-        <option>8</option><option>9</option><option>10</option>
-
-      </select>
-
-    </div>
-
     <button class="primary" onclick="saveCycle()">Save cycle details</button>
-
   </div>
-
   <div class="card">
-
     <h2>Period log</h2>
-
     <p class="small muted">Record when your period starts or ends.</p>
-
     <div class="buttonrow">
-
       <button class="secondary" onclick="markPeriod(true)">＋ Started today</button>
-
       <button class="secondary" onclick="markPeriod(false)">✓ Ended today</button>
-
     </div>
-
     <p id="periodStatus" class="small muted"></p>
-
   </div>
-
 </section>
 
 <!-- CHECK-IN -->
-
 <section id="checkin" class="screen">
-
-  <div class="eyebrow">A MOMENT FOR YOU</div>
-
+  <div class="eyebrow">CHECK IN WITH YOURSELF</div>
   <h1>How are you feeling?</h1>
-
-  <p class="intro">Check in with your body and mind. Choose what feels right.</p>
-
+  <p class="intro">Choose what feels true today. Skip anything you like.</p>
   <div class="card">
-
     <h2>Symptoms</h2>
-
     <div class="symgrid" id="symptoms"></div>
-
-    <div class="field">
-
-      <label for="mood">Mood</label>
-
-      <select id="mood">
-
-        <option value="">Choose if you like</option>
-
-        <option>Calm</option><option>Happy</option><option>Anxious</option>
-
-        <option>Irritable</option><option>Low</option><option>Emotional</option>
-
-      </select>
-
+    <div class="field"><label for="mood">Mood</label>
+      <select id="mood"><option value="">Choose if you like</option><option>Calm</option><option>Happy</option><option>Anxious</option><option>Irritable</option><option>Low</option><option>Emotional</option></select>
     </div>
-
-    <div class="field">
-
-      <label for="energy">Energy level</label>
-
-      <select id="energy">
-
-        <option value="">Choose if you like</option>
-
-        <option>Low</option><option>Okay</option><option>Good</option><option>High</option>
-
-      </select>
-
+    <div class="field"><label for="energy">Energy</label>
+      <select id="energy"><option value="">Choose if you like</option><option>Low</option><option>Okay</option><option>Good</option><option>High</option></select>
     </div>
-
-    <div class="field">
-
-      <label for="notes">Notes (optional)</label>
-
+    <div class="field"><label for="notes">Notes (optional)</label>
       <textarea id="notes" rows="3" placeholder="Anything you want to remember…"></textarea>
-
     </div>
-
     <button class="primary" onclick="saveCheckin()">Save today's check-in</button>
-
   </div>
-
-  <div class="card">
-
-    <h2>Recent check-ins</h2>
-
-    <div id="history"></div>
-
-  </div>
-
+  <div class="card"><h2>Recent check-ins</h2><div id="history"></div></div>
 </section>
 
 <!-- WELLNESS -->
-
 <section id="wellness" class="screen">
-
-  <div class="eyebrow">SMALL THINGS THAT HELP</div>
-
+  <div class="eyebrow">FEEL GOOD, YOUR WAY</div>
   <h1>Food & wellness</h1>
-
-  <p class="intro">Gentle ideas for your cycle, without the pressure.</p>
-
+  <p class="intro">Gentle ideas for comfort and wellbeing.</p>
   <div class="phase-tabs" id="phaseTabs"></div>
-
   <div id="phaseContent"></div>
-
-  <div class="notice">There is no single food that fixes period symptoms. Aim for balanced meals, enough fluids and foods you enjoy. Ask a healthcare professional before starting supplements.</div>
-
+  <div class="notice">No single food fixes period symptoms. Aim for balanced meals, enough fluids, rest and the support that works for you.</div>
 </section>
 
 <!-- SHARING -->
-
 <section id="share" class="screen">
-
   <div class="eyebrow">TOGETHER, WITH PERMISSION</div>
-
   <h1>Share your cycle</h1>
-
-  <p class="intro">Create a message for a partner or someone you trust. You choose what to include.</p>
-
+  <p class="intro">Choose what you'd like a partner or trusted person to know.</p>
   <div class="sharepreview">
-
     <div class="heart">♡</div>
-
-    <h2>Support can be simple</h2>
-
-    <p class="small">A little kindness, a heating pad, a snack, or simply asking what would help.</p>
-
+    <h2>Support can be simple.</h2>
+    <p class="small muted">A little kindness, a heating pad, or asking what would help.</p>
   </div>
-
   <div class="card">
-
-    <h2>Choose what to share</h2>
-
+    <h2>What would you like to share?</h2>
     <label class="checkline"><input type="checkbox" id="shareDates" checked> Period dates and next estimate</label>
-
     <label class="checkline"><input type="checkbox" id="shareTips" checked> Helpful phase tips</label>
-
     <label class="checkline"><input type="checkbox" id="shareSymptoms"> Today's symptoms and mood</label>
-
-    <p class="footnote">Your symptoms are private by default. Nothing is sent automatically.</p>
-
+    <p class="footnote">Nothing is sent automatically. You review and share the message yourself.</p>
     <button class="primary" onclick="makeInvite()">Create invitation</button>
-
-    <div id="inviteArea" class="hidden" style="margin-top:15px">
-
-      <div class="field">
-
-        <label for="inviteText">Your invitation</label>
-
-        <textarea id="inviteText" rows="8" readonly></textarea>
-
-      </div>
-
+    <div id="inviteArea" class="hidden" style="margin-top:14px">
+      <div class="field"><label for="inviteText">Your message</label><textarea id="inviteText" rows="8" readonly></textarea></div>
       <div class="buttonrow">
-
         <button class="secondary" onclick="shareInvite()">Share / copy</button>
-
         <button class="secondary" onclick="downloadSummary()">Export summary</button>
-
       </div>
-
     </div>
-
   </div>
-
-  <div class="card">
-
-    <h2>How sharing works</h2>
-
-    <p class="small muted">Taynz. creates a shareable message and optional summary. This version saves your information on this device only and does not sync live cycle updates between phones.</p>
-
-  </div>
-
+  <div class="card"><h2>Privacy first</h2><p class="small muted">Taynz. stores your information on this device. Sharing creates a snapshot; it does not enable live updates or shared accounts.</p></div>
 </section>
 
 <!-- SETTINGS -->
-
 <section id="settings" class="screen">
-
   <div class="eyebrow">YOUR APP, YOUR CHOICES</div>
-
   <h1>Settings</h1>
-
-  <p class="intro">Manage your cycle information and personal data.</p>
-
   <div class="card">
-
     <h2>Your cycle</h2>
-
-    <p class="small muted">Update your dates, typical cycle length and period duration.</p>
-
+    <p class="small muted">Change your cycle length or period dates at any time.</p>
     <button class="secondary" onclick="go('cycle')">Edit cycle details</button>
-
   </div>
-
   <div class="card">
-
     <h2>Privacy & data</h2>
-
-    <p class="small muted">Your information is stored locally in this browser. Anyone with access to your device or browser profile may be able to view it.</p>
-
+    <p class="small muted">Your information is saved locally in this browser. Other people using the same browser profile may be able to see it.</p>
     <div class="buttonrow">
-
       <button class="secondary" onclick="exportData()">Export my data</button>
-
       <button class="danger" onclick="clearData()">Delete my data</button>
-
     </div>
-
   </div>
-
   <div class="card">
-
     <h2>About Taynz.</h2>
-
-    <p class="small muted">A gentle cycle and wellbeing companion. Not a medical device and not a substitute for professional care.</p>
-
-    <p class="footnote">Seek medical advice for symptoms that concern you. Get urgent care for very heavy bleeding, fainting, severe or sudden pain, or possible pregnancy with pain or bleeding. Bleeding that soaks through a pad or tampon every hour for 2 or more hours, especially with dizziness or shortness of breath, needs urgent medical assessment.</p>
-
+    <p class="small muted">A cycle and wellbeing companion, not a medical device. Predictions are estimates and should not replace professional advice.</p>
+    <p class="footnote">Seek medical advice for concerning symptoms. Get urgent care for fainting, severe or sudden pain, or very heavy bleeding, especially with dizziness or shortness of breath.</p>
   </div>
-
 </section>
-
 </div>
 
 <nav class="nav" aria-label="Main navigation">
-
   <button class="active" data-go="home" onclick="go('home')"><span>⌂</span>Home</button>
-
   <button data-go="cycle" onclick="go('cycle')"><span>◷</span>Cycle</button>
-
   <button data-go="checkin" onclick="go('checkin')"><span>♡</span>Check-in</button>
-
   <button data-go="wellness" onclick="go('wellness')"><span>✳</span>Wellness</button>
-
-  <button data-go="share" onclick="go('share')"><span>♧</span>Sharing</button>
-
+  <button data-go="share" onclick="go('share')"><span>♧</span>Share</button>
 </nav>
-
 <div id="toast" class="toast hidden" role="status"></div>
 
 <script>
-
-'use strict';
-
 const KEY='taynz-v1';
-
-const CIRCUMFERENCE=2*Math.PI*104;
-
 const todayISO=()=>{
-
-  const d=new Date();
-
-  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-
+ const d=new Date();
+ return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
 };
-
 const dateObj=s=>{
-
-  if(!s)return null;
-
-  const [y,m,d]=s.split('-').map(Number);
-
-  const x=new Date(y,m-1,d);
-
-  return Number.isNaN(x.getTime())?null:x;
-
+ if(!s)return null;
+ const [y,m,d]=s.split('-').map(Number);
+ return new Date(y,m-1,d);
 };
-
-const addDays=(d,n)=>{
-
-  const x=new Date(d);
-
-  x.setDate(x.getDate()+n);
-
-  return x;
-
-};
-
+const addDays=(d,n)=>{const x=new Date(d);x.setDate(x.getDate()+n);return x};
+const diffDays=(a,b)=>Math.round((a-b)/86400000);
 const fmt=(d,opt={month:'short',day:'numeric'})=>
+ d?d.toLocaleDateString(undefined,opt):'Not set';
 
-  d?d.toLocaleDateString(undefined,opt):'Not set';
-
-const diffDays=(a,b)=>
-
-  Math.round((Date.UTC(a.getFullYear(),a.getMonth(),a.getDate())-
-
-  Date.UTC(b.getFullYear(),b.getMonth(),b.getDate()))/86400000);
-
-const defaults={
-
-  lastPeriod:'',
-
-  cycleLength:28,
-
-  periodLength:5,
-
-  logs:[],
-
-  checkins:[],
-
-  periodEnd:'',
-
-  phasePick:'Period'
-
+let data={
+ lastPeriod:'',cycleLength:28,periodLength:5,
+ logs:[],checkins:[],periodEnd:'',phasePick:'Period'
 };
-
-let data={...defaults};
-
 try{
-
-  const saved=JSON.parse(localStorage.getItem(KEY)||'{}');
-
-  data={...defaults,...saved};
-
-  data.cycleLength=Math.max(21,Math.min(36,Number(data.cycleLength)||28));
-
-  data.periodLength=Math.max(2,Math.min(10,Number(data.periodLength)||5));
-
-  if(!Array.isArray(data.checkins))data.checkins=[];
-
-  if(!Array.isArray(data.logs))data.logs=[];
-
-}catch(e){data={...defaults};}
-
-let selectedSymptoms=[];
-
-let calMonth=new Date();
-
-calMonth.setDate(1);
+ data={...data,...JSON.parse(localStorage.getItem(KEY)||'{}')};
+}catch(e){}
 
 const symptomList=[
-
-  ['🩹','Cramps'],['🫧','Bloating'],['🤕','Headache'],
-
-  ['😴','Tired'],['🌦️','Mood changes'],['♡','Breast tenderness'],
-
-  ['💧','Spotting'],['🌿','Acne'],['🌀','Digestive changes'],['○','None']
-
+ ['🩹','Cramps'],['🫧','Bloating'],['🤕','Headache'],
+ ['😴','Tired'],['🌦️','Mood changes'],['♡','Breast tenderness'],
+ ['💧','Spotting'],['🌿','Acne'],['🌀','Digestive changes'],['○','None']
 ];
-
-const phaseData={
-
-  Period:{
-
-    days:'Usually the first days of your cycle',
-
-    intro:'Comfort and replenishment may be welcome. Follow your own energy rather than a rule.',
-
-    foods:[['🥬','Leafy greens'],['🫘','Beans & lentils'],['🍲','Warm soups'],['🍌','Bananas'],['🍫','Dark chocolate'],['💧','Water']],
-
-    tips:[['🛏️','Rest when you need it','Rest is worthwhile. Let your energy guide you.'],['♨️','Try warmth','A heating pad or warm bath may ease cramps.'],['🚶','Move gently','A short walk or stretch if it feels comfortable.']]
-
-  },
-
-  Follicular:{
-
-    days:'After your period, before ovulation',
-
-    intro:'Energy can change throughout the month. Build steady habits and choose movement you enjoy.',
-
-    foods:[['🥚','Eggs or tofu'],['🥣','Whole grains'],['🍓','Berries'],['🥑','Avocado'],['🥗','Colourful veg'],['💧','Water']],
-
-    tips:[['🥗','Eat a variety','Include protein, fibre and produce where you can.'],['🏃','Find your rhythm','Try an activity that feels good for you.'],['🌙','Keep sleep steady','A regular sleep routine supports wellbeing.']]
-
-  },
-
-  Ovulation:{
-
-    days:'Around mid-cycle; timing varies',
-
-    intro:'Ovulation timing is an estimate and can shift from month to month.',
-
-    foods:[['🐟','Fish or omega-3 foods'],['🥜','Nuts & seeds'],['🍊','Citrus fruit'],['🥦','Broccoli'],['🫘','Beans'],['💧','Water']],
-
-    tips:[['💧','Hydrate','Keep water nearby, especially when active.'],['💚','Check in','Notice patterns if doing so feels useful.'],['🛡️','Remember','Calendar estimates are not reliable contraception.']]
-
-  },
-
-  Luteal:{
-
-    days:'After ovulation until your next period',
-
-    intro:'Some people notice PMS symptoms; others do not. There is no one right way to feel.',
-
-    foods:[['🥜','Nuts & seeds'],['🍠','Sweet potato'],['🥣','Whole grains'],['🥛','Yogurt or alternative'],['🍌','Bananas'],['🍫','Dark chocolate']],
-
-    tips:[['🍽️','Eat regularly','Balanced meals and fibre-rich snacks may support steady energy.'],['🧘','Make room to unwind','Try breathing, stretching or a quiet break.'],['📝','Track patterns','A few cycles of notes may help you notice your own trends.']]
-
-  }
-
-};
+let selectedSymptoms=[];
 
 function persist(){
-
-  try{
-
-    localStorage.setItem(KEY,JSON.stringify(data));
-
-  }catch(e){
-
-    toast('Unable to save. Check your browser storage settings.');
-
-  }
-
+ try{localStorage.setItem(KEY,JSON.stringify(data))}
+ catch(e){toast('Could not save. Check your device storage.')}
 }
-
 function toast(message){
-
-  const el=document.getElementById('toast');
-
-  el.textContent=message;
-
-  el.classList.remove('hidden');
-
-  clearTimeout(toast.timer);
-
-  toast.timer=setTimeout(()=>el.classList.add('hidden'),2500);
-
+ const el=document.getElementById('toast');
+ el.textContent=message;el.classList.remove('hidden');
+ setTimeout(()=>el.classList.add('hidden'),2300);
 }
-
-function escapeHtml(value){
-
-  return String(value).replace(/[&<>"']/g,c=>({
-
-    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
-
-  }[c]));
-
-}
-
 function go(id){
-
-  document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('active',s.id===id));
-
-  document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.go===id));
-
-  if(id==='cycle')renderCalendar();
-
-  if(id==='checkin')renderHistory();
-
-  if(id==='wellness')renderWellness();
-
-  window.scrollTo({top:0,behavior:'smooth'});
-
+ document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('active',s.id===id));
+ document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.go===id));
+ if(id==='cycle')renderCalendar();
+ if(id==='checkin')renderHistory();
+ if(id==='wellness')renderWellness();
+ window.scrollTo({top:0,behavior:'smooth'});
 }
-
-/* Cycle calculations */
-
-function cycleInfo(){
-
-  const last=dateObj(data.lastPeriod);
-
-  if(!last)return {configured:false,name:'Cycle',day:0,until:null,next:null,phase:'Set up your cycle'};
-
-  const today=dateObj(todayISO());
-
-  const elapsed=diffDays(today,last);
-
-  const day=((elapsed%data.cycleLength)+data.cycleLength)%data.cycleLength+1;
-
-  const cycleStart=addDays(today,1-day);
-
-  const next=addDays(cycleStart,data.cycleLength);
-
-  const until=diffDays(next,today);
-
-  const periodEnd=Math.max(1,data.periodLength);
-
-  let name='Luteal';
-
-  if(day<=periodEnd)name='Period';
-
-  else if(day<Math.round(data.cycleLength*.45))name='Follicular';
-
-  else if(day>=data.cycleLength-15&&day<=data.cycleLength-11)name='Ovulation';
-
-  const descriptions={
-
-    Period:'Take things at your own pace. Rest and comfort may help.',
-
-    Follicular:'A new phase of your cycle. Notice how your energy feels.',
-
-    Ovulation:'Around the estimated middle of your cycle. Timing can vary.',
-
-    Luteal:'The days before your next estimated period. Check in with yourself.'
-
-  };
-
-  return {configured:true,name,day,until,next,phase:name,cycleStart,description:descriptions[name]};
-
+function phaseInfo(){
+ const last=dateObj(data.lastPeriod);
+ if(!last)return{name:'Cycle',day:0,until:null,phase:'Set up your cycle'};
+ const elapsed=diffDays(dateObj(todayISO()),last);
+ const day=((elapsed%data.cycleLength)+data.cycleLength)%data.cycleLength+1;
+ const until=data.cycleLength-day;
+ let phase;
+ if(day<=data.periodLength)phase='Period';
+ else if(day<Math.round(data.cycleLength*.45))phase='Follicular';
+ else if(day>=data.cycleLength-15&&day<=data.cycleLength-11)phase='Ovulation';
+ else phase='Luteal';
+ return{name:phase,day,until,phase};
 }
-
 function renderHome(){
-
-  const p=cycleInfo();
-
-  const ring=document.getElementById('ringProgress');
-
-  const dayText=document.getElementById('ringDay');
-
-  const totalText=document.getElementById('ringTotal');
-
-  const caption=document.getElementById('ringCaption');
-
-  const marker=document.getElementById('ringMarker');
-
-  ring.style.strokeDasharray=String(CIRCUMFERENCE);
-
-  const progress=p.configured?p.day/data.cycleLength:0;
-
-  ring.style.strokeDashoffset=String(CIRCUMFERENCE*(1-progress));
-
-  const colours={Period:'#d9a2ac',Follicular:'#a9bda1',Ovulation:'#d7bd8f',Luteal:'#b9add0'};
-
-  const colour=colours[p.name]||'#a9bda1';
-
-  ring.style.stroke=colour;
-
-  marker.style.transform=`rotate(${p.configured?(p.day/data.cycleLength)*360:0}deg)`;
-
-  marker.style.transformOrigin='130px 130px';
-
-  marker.querySelector('circle').setAttribute('fill',colour);
-
-  dayText.textContent=p.configured?p.day:'—';
-
-  caption.textContent=p.configured?'CYCLE DAY':'YOUR CYCLE';
-
-  totalText.textContent=p.configured?`of ${data.cycleLength} days`:'Add your dates to begin';
-
-  document.getElementById('phasePill').textContent=p.configured?p.name.toUpperCase():'WELCOME TO TAYNZ.';
-
-  document.getElementById('phaseName').textContent=p.configured?`${p.name} phase`:'Get to know your cycle';
-
-  document.getElementById('phaseDescription').textContent=p.configured?p.description:'Add the first day of your last period to see your cycle day, phase and next period estimate.';
-
-  document.getElementById('nextPeriodValue').textContent=
-
-    !p.configured?'Not set':p.until===0?'Today':`${p.until} days`;
-
-  document.getElementById('nextPeriodSub').textContent=
-
-    !p.configured?'Add your cycle dates':`Estimated ${fmt(p.next,{month:'short',day:'numeric'})}`;
-
-  document.getElementById('cycleLengthValue').textContent=`${data.cycleLength} days`;
-
-  const tips={
-
-    Period:['♨️','Make room for comfort','A warm bath or heating pad may help ease cramps.'],
-
-    Follicular:['🥗','Keep it balanced','Build meals around protein, whole grains, fruit and colourful vegetables.'],
-
-    Ovulation:['💧','Keep hydrated','Keep water nearby and enjoy movement that feels good.'],
-
-    Luteal:['🥜','Steady energy','Regular meals and fibre-rich snacks may help you feel more satisfied.'],
-
-    Cycle:['🌱','Start with the basics','Add your last period date to personalise your cycle overview.']
-
-  };
-
-  const t=tips[p.configured?p.name:'Cycle'];
-
-  document.getElementById('dailyTip').innerHTML=
-
-    `<div class="tip-icon">${t[0]}</div><div><h3>${t[1]}</h3><p>${t[2]}</p></div>`;
-
+ const p=phaseInfo();
+ const ring=document.getElementById('ringProgress');
+ const circumference=2*Math.PI*110;
+ const fraction=p.day?Math.min(p.day/data.cycleLength,1):0;
+ ring.style.strokeDasharray=circumference;
+ ring.style.strokeDashoffset=circumference*(1-fraction);
+ document.getElementById('dayNumber').textContent=p.day||'—';
+ document.getElementById('phaseLabel').textContent=p.name==='Cycle'?'Set up your cycle':p.name+' phase';
+ document.getElementById('ringCaption').textContent=p.day?
+ `Day ${p.day} of your ${data.cycleLength}-day cycle`:
+ 'Your body, your rhythm.';
+ document.getElementById('homeLength').textContent=data.cycleLength;
+ document.getElementById('homePhase').textContent=p.name==='Cycle'?'Add your period date':p.name+' phase';
+ const next=document.getElementById('nextPeriod');
+ const nextDate=document.getElementById('nextPeriodDate');
+ if(p.until===null){
+  next.textContent='Not set';nextDate.textContent='Add your last period';
+ }else{
+  next.textContent=p.until===0?'Around today':`${p.until} days`;
+  const due=addDays(dateObj(todayISO()),p.until);
+  nextDate.textContent=fmt(due,{month:'short',day:'numeric'});
+ }
+ const tips={
+  Period:['Comfort first','Try warmth, hydration and rest if they feel helpful.'],
+  Follicular:['Nourish your energy','Choose balanced meals and movement that feels good.'],
+  Ovulation:['Listen to your body','Keep hydrated and remember ovulation timing can shift.'],
+  Luteal:['Make space to unwind','Regular meals, rest and gentle movement may help.'],
+  Cycle:['Start with the basics','Add your last period date to personalize your cycle overview.']
+ };
+ const tip=tips[p.name]||tips.Cycle;
+ document.getElementById('tipTitle').textContent=tip[0];
+ document.getElementById('dailyTip').textContent=tip[1];
 }
 
-/* Calendar */
-
-function changeMonth(amount){
-
-  calMonth=new Date(calMonth.getFullYear(),calMonth.getMonth()+amount,1);
-
-  renderCalendar();
-
+let calMonth=new Date();
+function changeMonth(n){
+ calMonth=new Date(calMonth.getFullYear(),calMonth.getMonth()+n,1);
+ renderCalendar();
 }
-
 function renderCalendar(){
-
-  const y=calMonth.getFullYear(),m=calMonth.getMonth();
-
-  const first=new Date(y,m,1),start=first.getDay(),days=new Date(y,m+1,0).getDate();
-
-  document.getElementById('monthLabel').textContent=
-
-    calMonth.toLocaleDateString(undefined,{month:'long',year:'numeric'});
-
-  const names=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-
-  let html=names.map(n=>`<div class="dayname">${n}</div>`).join('');
-
-  for(let i=0;i<start;i++){
-
-    const d=new Date(y,m,1-start+i);
-
-    html+=`<div class="day other">${d.getDate()}</div>`;
-
-  }
-
+ const y=calMonth.getFullYear(),m=calMonth.getMonth();
+ const first=new Date(y,m,1),start=first.getDay();
+ const days=new Date(y,m+1,0).getDate();
+ document.getElementById('monthLabel').textContent=
+ calMonth.toLocaleDateString(undefined,{month:'long',year:'numeric'});
+ const names=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+ let html=names.map(n=>`<div class="dayname">${n}</div>`).join('');
+ for(let i=0;i<start;i++){
+  const d=new Date(y,m,1-start+i);
+  html+=`<div class="day other">${d.getDate()}</div>`;
+ }
+ for(let n=1;n<=days;n++){
+  const d=new Date(y,m,n);
+  let cls='';
   const last=dateObj(data.lastPeriod);
-
-  for(let n=1;n<=days;n++){
-
-    const d=new Date(y,m,n);
-
-    const iso=`${y}-${String(m+1).padStart(2,'0')}-${String(n).padStart(2,'0')}`;
-
-    let cls='';
-
-    if(last){
-
-      const delta=diffDays(d,last);
-
-      const cy=((delta%data.cycleLength)+data.cycleLength)%data.cycleLength;
-
-      if(delta>=0&&cy<data.periodLength)cls='period';
-
-      else if(delta>=0&&cy>=data.cycleLength-18&&cy<=data.cycleLength-13)cls='fertile';
-
-      if(delta>=0&&cy===data.cycleLength-14)cls='ovulation';
-
-    }
-
-    if(iso===todayISO())cls+=' today';
-
-    html+=`<button class="day ${cls}" onclick="selectDate(${y},${m},${n})" aria-label="${fmt(d,{month:'long',day:'numeric',year:'numeric'})}">${n}</button>`;
-
+  if(last){
+   const delta=diffDays(d,last);
+   const cy=((delta%data.cycleLength)+data.cycleLength)%data.cycleLength;
+   if(delta>=0&&cy<data.periodLength)cls='period';
+   else if(delta>=0&&cy>=data.cycleLength-18&&cy<=data.cycleLength-13)cls='fertile';
+   if(delta>=0&&cy===data.cycleLength-14)cls='ovulation';
   }
-
-  const remain=(7-((start+days)%7))%7;
-
-  for(let i=1;i<=remain;i++)html+=`<div class="day other">${i}</div>`;
-
-  document.getElementById('calendar').innerHTML=html;
-
-  document.getElementById('lastPeriod').value=data.lastPeriod;
-
-  document.getElementById('cycleLength').value=String(data.cycleLength);
-
-  document.getElementById('periodLength').value=String(data.periodLength);
-
-  document.getElementById('periodStatus').textContent=
-
-    data.periodEnd?`Last marked period end: ${fmt(dateObj(data.periodEnd),{month:'long',day:'numeric'})}`:'';
-
+  if(todayISO()===`${y}-${String(m+1).padStart(2,'0')}-${String(n).padStart(2,'0')}`)
+   cls+=' today';
+  html+=`<button class="day ${cls}" onclick="selectDate(${y},${m},${n})" aria-label="${fmt(d,{month:'long',day:'numeric',year:'numeric'})}">${n}</button>`;
+ }
+ const remain=(7-((start+days)%7))%7;
+ for(let i=1;i<=remain;i++)html+=`<div class="day other">${i}</div>`;
+ document.getElementById('calendar').innerHTML=html;
+ document.getElementById('lastPeriod').value=data.lastPeriod;
+ document.getElementById('cycleLength').value=data.cycleLength;
+ document.getElementById('periodLength').value=data.periodLength;
+ document.getElementById('periodStatus').textContent=data.periodEnd?
+ `Last marked period end: ${fmt(dateObj(data.periodEnd),{month:'long',day:'numeric'})}`:'';
 }
-
 function selectDate(y,m,d){
-
-  const iso=`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-
-  if(confirm(`Set ${fmt(dateObj(iso),{month:'long',day:'numeric',year:'numeric'})} as the first day of your last period?`)){
-
-    data.lastPeriod=iso;
-
-    persist();
-
-    renderAll();
-
-    toast('Cycle date updated');
-
-  }
-
+ const iso=`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+ if(confirm(`Use ${fmt(dateObj(iso),{month:'long',day:'numeric',year:'numeric'})} as the first day of your last period?`)){
+  data.lastPeriod=iso;persist();renderAll();toast('Cycle date updated');
+ }
 }
-
 function saveCycle(){
-
-  const selectedDate=document.getElementById('lastPeriod').value;
-
-  if(selectedDate&&selectedDate>todayISO()){
-
-    toast('Choose today or an earlier date.');
-
-    return;
-
-  }
-
-  data.lastPeriod=selectedDate;
-
-  data.cycleLength=Number(document.getElementById('cycleLength').value);
-
-  data.periodLength=Number(document.getElementById('periodLength').value);
-
-  persist();
-
-  renderAll();
-
-  toast('Cycle details saved');
-
+ data.lastPeriod=document.getElementById('lastPeriod').value;
+ data.cycleLength=Number(document.getElementById('cycleLength').value);
+ data.periodLength=Number(document.getElementById('periodLength').value);
+ persist();renderAll();toast('Cycle details saved');
 }
-
 function markPeriod(start){
-
-  if(start){
-
-    data.lastPeriod=todayISO();
-
-    data.periodEnd='';
-
-  }else{
-
-    data.periodEnd=todayISO();
-
-  }
-
-  persist();
-
-  renderAll();
-
-  toast(start?'Period start saved':'Period end saved');
-
+ if(start){data.lastPeriod=todayISO();data.periodEnd=''}
+ else data.periodEnd=todayISO();
+ persist();renderAll();toast(start?'Period start saved':'Period end saved');
 }
-
-/* Check-ins */
-
 function renderSymptoms(){
-
-  document.getElementById('symptoms').innerHTML=symptomList.map(([emoji,name])=>
-
-    `<button class="symptom ${selectedSymptoms.includes(name)?'selected':''}" aria-pressed="${selectedSymptoms.includes(name)}" onclick="toggleSymptom('${name.replace(/'/g,"\\'")}')"><span>${emoji}</span>${name}</button>`
-
-  ).join('');
-
+ document.getElementById('symptoms').innerHTML=symptomList.map(([emoji,name])=>
+ `<button class="symptom ${selectedSymptoms.includes(name)?'selected':''}" onclick="toggleSymptom('${name.replace(/'/g,"\\'")}')"><span>${emoji}</span>${name}</button>`
+ ).join('');
 }
-
 function toggleSymptom(name){
-
-  if(name==='None')selectedSymptoms=[];
-
-  else{
-
-    selectedSymptoms=selectedSymptoms.filter(x=>x!=='None');
-
-    selectedSymptoms=selectedSymptoms.includes(name)
-
-      ?selectedSymptoms.filter(x=>x!==name)
-
-      :[...selectedSymptoms,name];
-
-  }
-
-  renderSymptoms();
-
+ if(name==='None')selectedSymptoms=['None'];
+ else{
+  selectedSymptoms=selectedSymptoms.filter(x=>x!=='None');
+  selectedSymptoms=selectedSymptoms.includes(name)?
+   selectedSymptoms.filter(x=>x!==name):[...selectedSymptoms,name];
+ }
+ renderSymptoms();
 }
-
 function saveCheckin(){
-
-  const entry={
-
-    date:todayISO(),
-
-    symptoms:[...selectedSymptoms],
-
-    mood:document.getElementById('mood').value,
-
-    energy:document.getElementById('energy').value,
-
-    notes:document.getElementById('notes').value
-
-  };
-
-  data.checkins=data.checkins.filter(c=>c.date!==entry.date);
-
-  data.checkins.unshift(entry);
-
-  persist();
-
-  selectedSymptoms=[];
-
-  document.getElementById('notes').value='';
-
-  document.getElementById('mood').value='';
-
-  document.getElementById('energy').value='';
-
-  renderSymptoms();
-
-  renderHistory();
-
-  toast('Check-in saved privately');
-
+ const entry={
+  date:todayISO(),symptoms:[...selectedSymptoms],
+  mood:document.getElementById('mood').value,
+  energy:document.getElementById('energy').value,
+  notes:document.getElementById('notes').value
+ };
+ data.checkins=data.checkins.filter(c=>c.date!==entry.date);
+ data.checkins.unshift(entry);persist();
+ selectedSymptoms=[];
+ document.getElementById('notes').value='';
+ document.getElementById('mood').value='';
+ document.getElementById('energy').value='';
+ renderSymptoms();renderHistory();toast('Check-in saved privately');
 }
-
+function escapeHtml(s){
+ return String(s).replace(/[&<>"']/g,c=>({
+ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+ }[c]));
+}
 function renderHistory(){
-
-  const el=document.getElementById('history');
-
-  if(!data.checkins.length){
-
-    el.innerHTML='<div class="empty"><div class="emoji">🌱</div><p class="small muted">Your check-ins will appear here when you save one.</p></div>';
-
-    return;
-
-  }
-
-  el.innerHTML=data.checkins.slice(0,7).map(c=>
-
-    `<div class="tip-card" style="padding:12px 0;border-bottom:1px solid var(--line)">
-
-      <div class="tip-icon">♡</div>
-
-      <div><h3>${fmt(dateObj(c.date),{month:'short',day:'numeric'})}${c.mood?' · '+escapeHtml(c.mood):''}</h3>
-
-      <p>${escapeHtml([...(c.symptoms||[]),c.energy?'Energy: '+c.energy:'',c.notes||''].filter(Boolean).join(' · ')||'No details added')}</p></div>
-
-    </div>`
-
-  ).join('');
-
+ const el=document.getElementById('history');
+ if(!data.checkins.length){
+  el.innerHTML='<div class="empty">Your saved check-ins will appear here.</div>';return;
+ }
+ el.innerHTML=data.checkins.slice(0,7).map(c=>
+ `<div class="tiprow"><div class="tipicon">♡</div><div><h3>${fmt(dateObj(c.date))}${c.mood?' · '+escapeHtml(c.mood):''}</h3><p>${escapeHtml([...(c.symptoms||[]),c.energy?'Energy: '+c.energy:'',c.notes||''].filter(Boolean).join(' · ')||'No details added')}</p></div></div>`
+ ).join('');
 }
 
-/* Wellness */
-
+const phaseData={
+ Period:{
+ days:'Usually days 1–5',
+ intro:'Comfort, rest and replenishment may be welcome. Follow your own energy.',
+ foods:[['🥬','Leafy greens'],['🫘','Beans'],['🍲','Warm soups'],['🍌','Bananas'],['🍫','Dark chocolate'],['💧','Water']],
+ tips:[['♨️','Try warmth','A heating pad or warm bath may ease cramps.'],['🚶','Move gently','Try a short walk or stretch if comfortable.']]
+ },
+ Follicular:{
+ days:'After your period to mid-cycle',
+ intro:'Energy varies. Build steady habits and choose movement you enjoy.',
+ foods:[['🥚','Eggs or tofu'],['🥣','Whole grains'],['🍓','Berries'],['🥑','Avocado'],['🥗','Vegetables'],['💧','Water']],
+ tips:[['🥗','Eat a variety','Include protein, fibre and colourful produce.'],['🌙','Keep sleep steady','A regular sleep routine supports wellbeing.']]
+ },
+ Ovulation:{
+ days:'Around mid-cycle; timing varies',
+ intro:'Ovulation is an estimate and may shift from month to month.',
+ foods:[['🐟','Fish'],['🥜','Nuts & seeds'],['🍊','Citrus'],['🥦','Broccoli'],['🫘','Beans'],['💧','Water']],
+ tips:[['💧','Stay hydrated','Keep water nearby.'],['🛡️','Remember','Calendar estimates are not reliable contraception.']]
+ },
+ Luteal:{
+ days:'After ovulation until your next period',
+ intro:'Some people notice PMS symptoms; others do not. Every cycle is different.',
+ foods:[['🥜','Nuts & seeds'],['🍠','Sweet potato'],['🥣','Whole grains'],['🥛','Yogurt'],['🍌','Bananas'],['🍫','Dark chocolate']],
+ tips:[['🍽️','Eat regularly','Balanced meals and fibre-rich snacks may support energy.'],['🧘','Unwind','Try stretching, breathing or a quiet break.']]
+ }
+};
 function renderWellness(){
-
-  document.getElementById('phaseTabs').innerHTML=Object.keys(phaseData).map(name=>
-
-    `<button class="${data.phasePick===name?'active':''}" onclick="data.phasePick='${name}';persist();renderWellness()">${name}</button>`
-
-  ).join('');
-
-  const p=phaseData[data.phasePick]||phaseData.Period;
-
-  document.getElementById('phaseContent').innerHTML=`
-
-    <div class="card" style="background:var(--sage);border-color:transparent">
-
-      <div class="eyebrow">${p.days}</div>
-
-      <h2 style="margin-top:10px">${data.phasePick} phase</h2>
-
-      <p class="small">${p.intro}</p>
-
-    </div>
-
-    <div class="card"><h2>Foods to consider</h2>
-
-      <div class="foodgrid">${p.foods.map(f=>`<div class="food"><span>${f[0]}</span>${f[1]}</div>`).join('')}</div>
-
-    </div>
-
-    <div class="card"><h2>Gentle wellness ideas</h2>
-
-      ${p.tips.map(t=>`<div class="tip-card" style="padding:12px 0">
-
-        <div class="tip-icon">✳</div><div><h3>${t[1]}</h3><p>${t[2]}</p></div>
-
-      </div>`).join('')}
-
-    </div>`;
-
+ document.getElementById('phaseTabs').innerHTML=Object.keys(phaseData).map(n=>
+ `<button class="${data.phasePick===n?'active':''}" onclick="pickPhase('${n}')">${n}</button>`
+ ).join('');
+ const p=phaseData[data.phasePick]||phaseData.Period;
+ document.getElementById('phaseContent').innerHTML=`
+ <div class="card"><div class="eyebrow">${p.days}</div><h2 style="margin-top:12px">${data.phasePick} phase</h2><p class="small muted">${p.intro}</p></div>
+ <div class="card"><h2>Foods to consider</h2><div class="foodgrid">${p.foods.map(f=>`<div class="food"><span>${f[0]}</span>${f[1]}</div>`).join('')}</div></div>
+ <div class="card"><h2>Gentle wellness ideas</h2>${p.tips.map(t=>`<div class="tiprow"><div class="tipicon">✿</div><div><h3>${t[1]}</h3><p>${t[2]}</p></div></div>`).join('')}</div>`;
 }
-
-/* Sharing and export */
+function pickPhase(n){data.phasePick=n;persist();renderWellness()}
 
 function makeInvite(){
-
-  const p=cycleInfo();
-
-  const parts=[
-
-    'Taynz. — a little cycle support invitation',
-
-    'I’m inviting you to learn how to support me through my cycle.'
-
-  ];
-
-  if(document.getElementById('shareDates').checked){
-
-    parts.push(`Cycle phase: ${p.name}. ${p.configured?`Cycle day ${p.day}. Next period estimate: ${fmt(p.next,{month:'long',day:'numeric'})}.`:'I have not added my cycle dates yet.'}`);
-
-  }
-
-  if(document.getElementById('shareTips').checked){
-
-    parts.push('Helpful support: ask what would help, offer comfort, and remember that everyone’s experience is different.');
-
-  }
-
-  if(document.getElementById('shareSymptoms').checked){
-
-    const c=data.checkins.find(x=>x.date===todayISO());
-
-    parts.push(c?`Today’s check-in: ${[...(c.symptoms||[]),c.mood?'Mood: '+c.mood:'',c.energy?'Energy: '+c.energy:''].filter(Boolean).join(', ')||'No symptoms selected'}`:'No check-in saved for today.');
-
-  }
-
-  parts.push('This is a manually shared snapshot, not a live connection.');
-
-  document.getElementById('inviteText').value=parts.join('\n\n');
-
-  document.getElementById('inviteArea').classList.remove('hidden');
-
+ const p=phaseInfo();
+ const parts=['Taynz. — a little cycle support invitation',
+ 'I’m inviting you to learn how to support me through my cycle.'];
+ if(document.getElementById('shareDates').checked){
+  parts.push(`Cycle phase: ${p.name}. ${p.until===null?'I have not added my cycle dates yet.':`Next period estimate: ${p.until===0?'around today':`in ${p.until} day(s)`}.`}`);
+ }
+ if(document.getElementById('shareTips').checked)
+  parts.push('Helpful support: ask what would help, offer comfort, and remember that everyone’s experience is different.');
+ if(document.getElementById('shareSymptoms').checked){
+  const c=data.checkins.find(x=>x.date===todayISO());
+  parts.push(c?`Today’s check-in: ${[...(c.symptoms||[]),c.mood?'Mood: '+c.mood:'',c.energy?'Energy: '+c.energy:''].filter(Boolean).join(', ')||'No symptoms selected'}`:'No check-in saved for today.');
+ }
+ parts.push('This is a manually shared snapshot, not a live connection.');
+ document.getElementById('inviteText').value=parts.join('\n\n');
+ document.getElementById('inviteArea').classList.remove('hidden');
 }
-
 async function shareInvite(){
-
-  const text=document.getElementById('inviteText').value;
-
-  try{
-
-    if(navigator.share)await navigator.share({title:'Taynz. cycle support',text});
-
-    else if(navigator.clipboard&&navigator.clipboard.writeText){
-
-      await navigator.clipboard.writeText(text);
-
-      toast('Invitation copied');
-
-    }else{
-
-      document.getElementById('inviteText').focus();
-
-      document.getElementById('inviteText').select();
-
-      toast('Select and copy the invitation text');
-
-    }
-
-  }catch(e){
-
-    if(e.name!=='AbortError'){
-
-      document.getElementById('inviteText').focus();
-
-      document.getElementById('inviteText').select();
-
-      toast('Select and copy the invitation text');
-
-    }
-
+ const text=document.getElementById('inviteText').value;
+ try{
+  if(navigator.share)await navigator.share({title:'Taynz. cycle support',text});
+  else{await navigator.clipboard.writeText(text);toast('Invitation copied')}
+ }catch(e){
+  if(e.name!=='AbortError'){
+   const el=document.getElementById('inviteText');el.focus();el.select();
+   toast('Select and copy the invitation text');
   }
-
+ }
 }
-
 function downloadFile(name,content,type){
-
-  const blob=new Blob([content],{type});
-
-  const url=URL.createObjectURL(blob);
-
-  const a=document.createElement('a');
-
-  a.href=url;
-
-  a.download=name;
-
-  document.body.appendChild(a);
-
-  a.click();
-
-  a.remove();
-
-  setTimeout(()=>URL.revokeObjectURL(url),1000);
-
+ const blob=new Blob([content],{type});
+ const url=URL.createObjectURL(blob);
+ const a=document.createElement('a');a.href=url;a.download=name;a.click();
+ setTimeout(()=>URL.revokeObjectURL(url),1000);
 }
-
 function downloadSummary(){
-
-  const p=cycleInfo();
-
-  const summary={app:'Taynz.',createdAt:new Date().toISOString(),sharingNotice:'User-selected snapshot; not live synced.'};
-
-  if(document.getElementById('shareDates').checked){
-
-    summary.cycle={
-
-      lastPeriod:data.lastPeriod,
-
-      cycleLength:data.cycleLength,
-
-      periodLength:data.periodLength,
-
-      phase:p.name,
-
-      cycleDay:p.day,
-
-      nextPeriodEstimate:p.next?p.next.toISOString().slice(0,10):null
-
-    };
-
-  }
-
-  if(document.getElementById('shareTips').checked){
-
-    summary.wellnessTips=(phaseData[p.name]||phaseData.Period).tips;
-
-  }
-
-  if(document.getElementById('shareSymptoms').checked){
-
-    summary.todayCheckin=data.checkins.find(x=>x.date===todayISO())||null;
-
-  }
-
-  downloadFile('taynz-share-summary.json',JSON.stringify(summary,null,2),'application/json');
-
-  toast('Summary exported');
-
+ const p=phaseInfo();
+ const summary={
+  app:'Taynz.',createdAt:new Date().toISOString(),
+  sharingNotice:'User-selected snapshot; not live synced.',
+  cycle:document.getElementById('shareDates').checked?{
+   lastPeriod:data.lastPeriod,cycleLength:data.cycleLength,
+   periodLength:data.periodLength,phase:p.name,cycleDay:p.day
+  }:undefined,
+  wellnessTips:document.getElementById('shareTips').checked?
+   (phaseData[p.name]||phaseData.Period).tips:undefined,
+  todayCheckin:document.getElementById('shareSymptoms').checked?
+   data.checkins.find(x=>x.date===todayISO()):undefined
+ };
+ downloadFile('taynz-share-summary.json',JSON.stringify(summary,null,2),'application/json');
+ toast('Summary exported');
 }
-
 function exportData(){
-
-  downloadFile('taynz-my-data.json',JSON.stringify(data,null,2),'application/json');
-
-  toast('Your data export is ready');
-
+ downloadFile('taynz-my-data.json',JSON.stringify(data,null,2),'application/json');
+ toast('Your data export is ready');
 }
-
 function clearData(){
-
-  if(confirm('Delete all Taynz. data saved in this browser? This cannot be undone.')){
-
-    localStorage.removeItem(KEY);
-
-    data={...defaults,logs:[],checkins:[]};
-
-    selectedSymptoms=[];
-
-    renderAll();
-
-    toast('Your local data was deleted');
-
-  }
-
+ if(confirm('Delete all Taynz. data saved in this browser? This cannot be undone.')){
+  localStorage.removeItem(KEY);
+  data={lastPeriod:'',cycleLength:28,periodLength:5,logs:[],checkins:[],periodEnd:'',phasePick:'Period'};
+  selectedSymptoms=[];
+  renderAll();toast('Your local data was deleted');
+ }
 }
-
 function renderAll(){
-
-  renderHome();
-
-  renderCalendar();
-
-  renderSymptoms();
-
-  renderHistory();
-
-  renderWellness();
-
+ renderHome();renderCalendar();renderSymptoms();renderHistory();renderWellness();
 }
-
 renderAll();
 
-if('serviceWorker' in navigator&&location.protocol.startsWith('http')){
-
-  window.addEventListener('load',()=>{
-
-    navigator.serviceWorker.register('./sw.js').catch(()=>{});
-
-  });
-
+if('serviceWorker' in navigator && location.protocol.startsWith('http')){
+ window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
 }
-
 </script>
-
 </body>
-
 </html>
