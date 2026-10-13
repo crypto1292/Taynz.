@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,8 +17,7 @@
   --muted:#bbaab6;--line:#392331;--soft:#ffc0d8;
 }
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);
-font:16px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+body{margin:0;background:var(--bg);color:var(--text);font:16px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
 button,input,textarea,select{font:inherit}
 button{cursor:pointer}
 main{width:min(100%,600px);margin:auto;padding:22px 17px 110px}
@@ -49,16 +49,29 @@ button:disabled{opacity:.55;cursor:wait}
 .row>*{flex:1;min-width:0}
 .pill{display:inline-block;background:#35202f;color:var(--soft);border-radius:99px;padding:7px 11px;font-size:12px}
 .status{font-size:13px;color:var(--muted);min-height:18px;margin-top:9px;line-height:1.45;overflow-wrap:anywhere}
-.circle-wrap{display:flex;justify-content:center;margin:23px 0}
-.cycle-circle{width:220px;height:220px;border-radius:50%;display:flex;align-items:center;justify-content:center;text-align:center;background:conic-gradient(var(--pink),var(--red),#68264a,#2c1928,var(--pink));position:relative}
-.cycle-circle:before{content:"";position:absolute;inset:10px;background:#170d16;border-radius:50%}
-.circle-content{position:relative;z-index:1}
+.topline{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px}
+.date-chip{color:var(--soft);font-size:13px;text-align:right}
+.circle-wrap{width:300px;height:300px;position:relative;margin:14px auto 8px;display:flex;align-items:center;justify-content:center}
+.cycle-circle{width:210px;height:210px;border-radius:50%;display:flex;align-items:center;justify-content:center;text-align:center;background:conic-gradient(var(--pink),var(--red),#68264a,#2c1928,var(--pink));position:relative;flex-shrink:0}
+.cycle-circle:before{content:"";position:absolute;inset:9px;background:#170d16;border-radius:50%}
+.circle-content{position:relative;z-index:1;pointer-events:none}
 .day-number{font-size:50px;line-height:1.1;font-weight:900}
-.day-label{font-size:13px;color:#d9c5d2;margin-top:6px}
+.day-label{font-size:12px;color:#d9c5d2;margin-top:6px;letter-spacing:1px}
+.cycle-dots{position:absolute;inset:0;z-index:2;pointer-events:none}
+.cycle-dot{position:absolute;width:9px;height:9px;padding:0;border-radius:50%;transform:translate(-50%,-50%);border:1px solid transparent;pointer-events:auto;box-shadow:0 0 0 2px #10090f}
+.cycle-dot.other{background:#75506c}
+.cycle-dot.period{background:#ff405d}
+.cycle-dot.fertile{background:#ff9bc7}
+.cycle-dot.today{width:13px;height:13px;border:2px solid white;box-shadow:0 0 0 2px #10090f,0 0 12px #ff3b82}
+.cycle-dot.selected{outline:2px solid white;outline-offset:3px}
+.cycle-dot.today.selected{outline-offset:4px}
+.calendar-legend{display:flex;justify-content:center;flex-wrap:wrap;gap:12px;margin:6px 0 14px;font-size:11px;color:var(--muted)}
+.legend-item{display:flex;align-items:center;gap:5px}
+.legend-dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+.selected-date{text-align:center;color:var(--soft);font-size:13px;font-weight:700;margin:8px 0 4px}
+.phase-description{text-align:center;font-size:13px;color:var(--muted);line-height:1.5;margin:4px 0}
 .section{animation:appear .16s ease}
 @keyframes appear{from{opacity:.6;transform:translateY(3px)}to{opacity:1;transform:none}}
-.topline{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px}
-.date-chip{color:var(--soft);font-size:13px}
 .quick-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .quick{padding:15px;background:var(--panel2);border:1px solid var(--line);border-radius:16px;text-align:left;color:white}
 .quick .emoji{font-size:23px;display:block;margin-bottom:9px}
@@ -83,6 +96,7 @@ button:disabled{opacity:.55;cursor:wait}
 .navbtn.active{background:#35202f;color:#ff8eb8}
 hr{border:0;border-top:1px solid var(--line);margin:18px 0}
 footer{text-align:center;color:var(--muted);font-size:12px;margin-top:24px;line-height:1.5}
+@media(max-width:360px){.circle-wrap{transform:scale(.92);transform-origin:center;margin-top:0;margin-bottom:0}}
 @media(min-width:500px){main{padding-top:28px}.navbtn{font-size:11px}}
 </style>
 </head>
@@ -94,7 +108,6 @@ footer{text-align:center;color:var(--muted);font-size:12px;margin-top:24px;line-
 </header>
 
 <section id="auth">
-  <p class="pill">YOUR CYCLE, YOUR SPACE</p>
   <h1>A little more in sync.</h1>
   <p class="muted">Your cycle, your journal, your support — all in one place.</p>
   <div class="panel">
@@ -116,15 +129,15 @@ footer{text-align:center;color:var(--muted);font-size:12px;margin-top:24px;line-
 
 <section id="app" class="hidden">
   <div id="home" class="section">
-    <p class="pill">YOUR CYCLE COMPANION</p>
     <h1>Hi, welcome back.</h1>
-    <p class="muted">A space to check in with yourself.</p>
+    <p class="muted">A little space to check in with yourself.</p>
 
     <div class="panel">
       <div class="topline">
         <h2 style="margin:0">Your cycle</h2>
         <span class="date-chip" id="todaylabel"></span>
       </div>
+
       <div class="circle-wrap">
         <div class="cycle-circle">
           <div class="circle-content">
@@ -132,9 +145,20 @@ footer{text-align:center;color:var(--muted);font-size:12px;margin-top:24px;line-
             <div class="day-label">CYCLE DAY</div>
           </div>
         </div>
+        <div class="cycle-dots" id="cycledots" aria-label="Select a cycle day"></div>
       </div>
-      <p id="phase" style="text-align:center;margin-bottom:4px">Start by adding your last period.</p>
+
+      <div class="calendar-legend">
+        <span class="legend-item"><i class="legend-dot" style="background:#ff405d"></i>Period</span>
+        <span class="legend-item"><i class="legend-dot" style="background:#ff9bc7"></i>Fertile window estimate</span>
+        <span class="legend-item"><i class="legend-dot" style="background:#75506c"></i>Other days</span>
+      </div>
+
+      <p class="selected-date" id="selectedday">Add your last period to begin</p>
+      <p id="phase" style="text-align:center;margin:8px 0 4px">Your estimated phase will appear here.</p>
       <p id="prediction" class="small" style="text-align:center">Your estimate will appear here.</p>
+      <p class="phase-description">Tap any dot around the circle to explore that day. Today's dot has a white outline.</p>
+
       <hr>
       <h3>Cycle settings</h3>
       <label for="lastperiod">First day of your last period</label>
@@ -227,34 +251,19 @@ footer{text-align:center;color:var(--muted);font-size:12px;margin-top:24px;line-
     <p class="pill">HELPFUL INFORMATION</p>
     <h1>Period guide</h1>
     <p class="muted">Simple information to help you understand and prepare for your cycle.</p>
-
     <div class="panel">
       <h2>What might I feel?</h2>
-      <div class="resource">
-        <h3>🩸 During your period</h3>
-        <p>Bleeding, cramps, tiredness, headaches, backache and changes in mood can happen. Symptoms vary from person to person and from cycle to cycle.</p>
-      </div>
-      <div class="resource">
-        <h3>🌱 After your period</h3>
-        <p>Energy and mood may improve for some people. Discharge and energy can change throughout the cycle.</p>
-      </div>
-      <div class="resource">
-        <h3>🌼 Around ovulation</h3>
-        <p>Some people notice slippery cervical mucus or mild one-sided discomfort. Ovulation dates are estimates, not guarantees.</p>
-      </div>
-      <div class="resource">
-        <h3>🌙 Before your period</h3>
-        <p>Bloating, tender breasts, cravings, fatigue, irritability or feeling emotional can occur in the days before bleeding begins.</p>
-      </div>
+      <div class="resource"><h3>🩸 During your period</h3><p>Bleeding, cramps, tiredness, headaches, backache and changes in mood can happen. Symptoms vary from person to person and from cycle to cycle.</p></div>
+      <div class="resource"><h3>🌱 After your period</h3><p>Energy and mood may improve for some people. Discharge and energy can change throughout the cycle.</p></div>
+      <div class="resource"><h3>🌼 Around ovulation</h3><p>Some people notice slippery cervical mucus or mild one-sided discomfort. Ovulation dates are estimates, not guarantees.</p></div>
+      <div class="resource"><h3>🌙 Before your period</h3><p>Bloating, tender breasts, cravings, fatigue, irritability or feeling emotional can occur in the days before bleeding begins.</p></div>
     </div>
-
     <div class="panel">
       <h2>What should I keep handy?</h2>
       <div class="resource"><h3>Period products</h3><p>Pads, tampons, period underwear or a menstrual cup — whichever you're comfortable using.</p></div>
       <div class="resource"><h3>Comfort</h3><p>A heating pad or warm water bottle, comfortable clothes and rest when you need it.</p></div>
       <div class="resource"><h3>Everyday essentials</h3><p>Water, regular meals, spare underwear and any usual pain relief you can safely take.</p></div>
     </div>
-
     <div class="panel">
       <h2>When to get medical help</h2>
       <p class="small">Seek urgent medical care for severe or sudden pelvic pain, fainting, or bleeding that soaks through a pad or tampon every hour for two or more hours, especially with dizziness or shortness of breath. Talk to a healthcare professional if symptoms regularly disrupt daily life.</p>
@@ -264,7 +273,7 @@ footer{text-align:center;color:var(--muted);font-size:12px;margin-top:24px;line-
   <div id="support" class="section hidden">
     <p class="pill">CARE AND CONNECTION</p>
     <h1>My support</h1>
-    <p class="muted">Small things your boyfriend can do to help you feel cared for. Choose what would actually help you today.</p>
+    <p class="muted">Small things your trusted person can do to help you feel cared for. Choose what would actually help you today.</p>
     <div class="panel">
       <label for="supportdate">For this day</label>
       <input id="supportdate" type="date">
@@ -287,7 +296,6 @@ footer{text-align:center;color:var(--muted);font-size:12px;margin-top:24px;line-
       <button id="clearsupport" class="danger" type="button">Clear this day's support details</button>
       <p class="small">This leaves your journal notes and symptoms untouched.</p>
     </div>
-
     <div class="panel">
       <h2>Share with my trusted person</h2>
       <p class="small">Approve one registered account so your trusted person can access your shared tracker. They must use their own confirmed account.</p>
@@ -362,6 +370,7 @@ footer{text-align:center;color:var(--muted);font-size:12px;margin-top:24px;line-
   let authMode = "login";
   let saving = false;
   let dirty = false;
+  let selectedCycleDay = null;
 
   function msg(id,text){
     $(id).textContent = text || "";
@@ -380,28 +389,24 @@ footer{text-align:center;color:var(--muted);font-size:12px;margin-top:24px;line-
 
   function setTab(tab){
     activeTab = tab;
-
     document.querySelectorAll(".section[id]").forEach(el=>{
       if(["home","journal","symptoms","guide","support"].includes(el.id)){
         el.classList.toggle("hidden",el.id!==tab);
       }
     });
-
     document.querySelectorAll(".navbtn").forEach(el=>{
       el.classList.toggle("active",el.dataset.tab===tab);
     });
-
+    if(tab==="home") renderHome();
     if(tab==="journal") renderJournal();
     if(tab==="symptoms") loadSymptoms();
     if(tab==="support") loadSupport();
-
     window.scrollTo({top:0,behavior:"smooth"});
   }
 
   document.querySelectorAll("[data-tab]").forEach(b=>{
     b.onclick=()=>setTab(b.dataset.tab);
   });
-
   document.querySelectorAll("[data-go]").forEach(b=>{
     b.onclick=()=>setTab(b.dataset.go);
   });
@@ -412,7 +417,6 @@ footer{text-align:center;color:var(--muted);font-size:12px;margin-top:24px;line-
     $("password").autocomplete=mode==="login"?"current-password":"new-password";
     msg("authmsg","");
   }
-
   $("tab-login").onclick=()=>setAuthMode("login");
   $("tab-signup").onclick=()=>setAuthMode("signup");
 
@@ -420,20 +424,15 @@ footer{text-align:center;color:var(--muted);font-size:12px;margin-top:24px;line-
     e.preventDefault();
     $("authsubmit").disabled=true;
     msg("authmsg","Please wait…");
-
     try{
       const email=$("email").value.trim();
       const password=$("password").value;
-
       if(authMode==="signup"){
         const {data,error}=await db.auth.signUp({
-          email,
-          password,
+          email,password,
           options:{emailRedirectTo:location.origin+location.pathname}
         });
-
         if(error) throw error;
-
         if(!data.session){
           msg("authmsg","Account created. Check your email to confirm it, then return and sign in.");
         }else{
@@ -451,58 +450,118 @@ footer{text-align:center;color:var(--muted);font-size:12px;margin-top:24px;line-
     }
   });
 
+  function phaseForDay(day,cycle,period){
+    const ovulationDay=Math.max(1,cycle-14);
+    const fertileStart=Math.max(period+1,ovulationDay-5);
+    const fertileEnd=Math.min(cycle,ovulationDay+1);
+    if(day<=period) return {
+      name:"Estimated period",
+      detail:"A predicted bleeding day based on your usual period length.",
+      kind:"period"
+    };
+    if(day>=fertileStart&&day<=fertileEnd) return {
+      name:"Estimated fertile window",
+      detail:"Fertility may be higher around this time. Calendar estimates cannot confirm ovulation or prevent pregnancy.",
+      kind:"fertile"
+    };
+    if(day<fertileStart) return {
+      name:"Follicular phase",
+      detail:"Your body may be preparing for ovulation.",
+      kind:"other"
+    };
+    return {
+      name:"Luteal phase",
+      detail:"The phase after estimated ovulation and before your next period.",
+      kind:"other"
+    };
+  }
+
   function renderHome(){
-    $("todaylabel").textContent=prettyDate(today());
+    const currentDate=today();
+    $("todaylabel").textContent=prettyDate(currentDate);
     $("lastperiod").value=state.lastPeriod||"";
     $("cyclelength").value=state.cycleLength||28;
     $("periodlength").value=state.periodLength||5;
 
+    const dots=$("cycledots");
+    dots.replaceChildren();
+
     if(!state.lastPeriod){
+      selectedCycleDay=null;
       $("cycleday").textContent="—";
-      $("phase").textContent="Add the first day of your last period.";
+      $("selectedday").textContent="Add your last period to begin";
+      $("phase").textContent="Your estimated phase will appear here.";
       $("prediction").textContent="Your estimate will appear here.";
       return;
     }
 
-    const elapsed=dateDiff(state.lastPeriod,today());
-    const cycle=Number(state.cycleLength)||28;
-    const period=Number(state.periodLength)||5;
+    const elapsed=dateDiff(state.lastPeriod,currentDate);
+    const cycle=Math.max(15,Math.min(60,Number(state.cycleLength)||28));
+    const period=Math.max(1,Math.min(15,Number(state.periodLength)||5));
 
     if(elapsed<0){
+      selectedCycleDay=null;
       $("cycleday").textContent="—";
-      $("phase").textContent="Check your last period date.";
-      $("prediction").textContent="The selected date is in the future.";
+      $("selectedday").textContent="Check your period date";
+      $("phase").textContent="The selected date is in the future.";
+      $("prediction").textContent="Choose the first day of your last period to continue.";
       return;
     }
 
-    const day=(elapsed%cycle)+1;
-    const next=addDays(state.lastPeriod,Math.ceil((elapsed+1)/cycle)*cycle);
+    const cycleNumber=Math.floor(elapsed/cycle);
+    const cycleStart=addDays(state.lastPeriod,cycleNumber*cycle);
+    const todayDay=(elapsed%cycle)+1;
 
-    $("cycleday").textContent=day;
-    $("phase").textContent=day<=period?"Estimated period days":"Estimated cycle phase";
-    $("prediction").textContent="Next period estimate: "+prettyDate(next)+". Your cycle may vary.";
+    if(!selectedCycleDay||selectedCycleDay<1||selectedCycleDay>cycle){
+      selectedCycleDay=todayDay;
+    }
+
+    const selectedDate=addDays(cycleStart,selectedCycleDay-1);
+    const nextPeriod=addDays(cycleStart,cycle);
+    const phase=phaseForDay(selectedCycleDay,cycle,period);
+
+    $("cycleday").textContent=selectedCycleDay;
+    $("selectedday").textContent=(selectedDate===currentDate?"Today · ":"Selected day · ")+prettyDate(selectedDate);
+    $("phase").textContent=phase.name;
+    $("prediction").textContent=phase.detail+" Next period estimate: "+prettyDate(nextPeriod)+".";
+
+    const radius=139;
+    for(let i=1;i<=cycle;i++){
+      const angle=(-90+(i-1)*360/cycle)*Math.PI/180;
+      const dot=document.createElement("button");
+      const info=phaseForDay(i,cycle,period);
+      dot.type="button";
+      dot.className="cycle-dot "+info.kind;
+      if(i===todayDay) dot.classList.add("today");
+      if(i===selectedCycleDay) dot.classList.add("selected");
+      dot.style.left=(150+radius*Math.cos(angle))+"px";
+      dot.style.top=(150+radius*Math.sin(angle))+"px";
+      dot.setAttribute("aria-label","Cycle day "+i+", "+info.name+", "+prettyDate(addDays(cycleStart,i-1)));
+      dot.title="Day "+i+" · "+prettyDate(addDays(cycleStart,i-1));
+      dot.onclick=()=>{
+        selectedCycleDay=i;
+        renderHome();
+      };
+      dots.appendChild(dot);
+    }
   }
 
   $("savecycle").onclick=async()=>{
     const cycle=Number($("cyclelength").value);
     const period=Number($("periodlength").value);
-
     if(!cycle||cycle<15||cycle>60){
       return msg("cyclemsg","Cycle length must be between 15 and 60 days.");
     }
-
     if(!period||period<1||period>15){
       return msg("cyclemsg","Period length must be between 1 and 15 days.");
     }
-
-    if($("lastperiod").value && $("lastperiod").value>today()){
+    if($("lastperiod").value&&$("lastperiod").value>today()){
       return msg("cyclemsg","The last period date cannot be in the future.");
     }
-
     state.lastPeriod=$("lastperiod").value;
     state.cycleLength=cycle;
     state.periodLength=period;
-
+    selectedCycleDay=null;
     await saveState("cyclemsg");
     renderHome();
   };
@@ -512,20 +571,12 @@ footer{text-align:center;color:var(--muted);font-size:12px;margin-top:24px;line-
     $("journaldate").value=date;
     $("journaldaylabel").textContent=prettyDate(date);
     $("notes").value=currentEntry(date).notes||"";
-
     const list=$("entrylist");
     list.replaceChildren();
-
     const dates=Object.keys(state.checkins).filter(d=>{
       const e=state.checkins[d]||{};
-      return (e.notes||"").trim() ||
-        (e.symptoms||[]).length ||
-        e.mood ||
-        e.energy ||
-        (e.supportNeeds||[]).length ||
-        (e.supportNote||"").trim();
+      return (e.notes||"").trim()||(e.symptoms||[]).length||e.mood||e.energy||(e.supportNeeds||[]).length||(e.supportNote||"").trim();
     }).sort((a,b)=>b.localeCompare(a));
-
     if(!dates.length){
       const p=document.createElement("p");
       p.className="small";
@@ -533,16 +584,13 @@ footer{text-align:center;color:var(--muted);font-size:12px;margin-top:24px;line-
       list.appendChild(p);
       return;
     }
-
     dates.forEach(d=>{
       const e=state.checkins[d]||{};
       const btn=document.createElement("button");
       btn.className="entry-card";
-
       const title=document.createElement("strong");
       title.textContent=prettyDate(d);
       btn.appendChild(title);
-
       const details=[];
       if(e.notes) details.push(e.notes);
       if(e.symptoms&&e.symptoms.length) details.push("Symptoms: "+e.symptoms.join(", "));
@@ -550,17 +598,14 @@ footer{text-align:center;color:var(--muted);font-size:12px;margin-top:24px;line-
       if(e.energy) details.push("Energy: "+e.energy);
       if(e.supportNeeds&&e.supportNeeds.length) details.push("Support: "+e.supportNeeds.join(", "));
       if(e.supportNote) details.push("Support note: "+e.supportNote);
-
       const p=document.createElement("p");
       p.textContent=details.join(" · ")||"Daily check-in";
       btn.appendChild(p);
-
       btn.onclick=()=>{
         $("journaldate").value=d;
         renderJournal();
         window.scrollTo({top:0,behavior:"smooth"});
       };
-
       list.appendChild(btn);
     });
   }
@@ -568,13 +613,10 @@ footer{text-align:center;color:var(--muted);font-size:12px;margin-top:24px;line-
   function loadSymptoms(){
     const date=$("symdate").value||today();
     $("symdate").value=date;
-
     const e=currentEntry(date);
-
     document.querySelectorAll("#symptomlist input").forEach(box=>{
       box.checked=(e.symptoms||[]).includes(box.value);
     });
-
     $("mood").value=e.mood||"";
     $("energy").value=e.energy||"";
   }
@@ -582,13 +624,10 @@ footer{text-align:center;color:var(--muted);font-size:12px;margin-top:24px;line-
   function loadSupport(){
     const date=$("supportdate").value||today();
     $("supportdate").value=date;
-
     const e=currentEntry(date);
-
     document.querySelectorAll("#supportlist input").forEach(box=>{
       box.checked=(e.supportNeeds||[]).includes(box.value);
     });
-
     $("supportnote").value=e.supportNote||"";
   }
 
@@ -596,7 +635,6 @@ footer{text-align:center;color:var(--muted);font-size:12px;margin-top:24px;line-
     dirty=true;
     msg(statusId,"Saving changes…");
     cancelPendingSave();
-
     saveTimer=setTimeout(()=>{
       saveTimer=null;
       saveState(statusId);
@@ -604,22 +642,9 @@ footer{text-align:center;color:var(--muted);font-size:12px;margin-top:24px;line-
   }
 
   function updateEntry(date,patch){
-    state.checkins[date]={
-      ...blankEntry(),
-      ...currentEntry(date),
-      ...patch
-    };
-
+    state.checkins[date]={...blankEntry(),...currentEntry(date),...patch};
     const e=state.checkins[date];
-
-    const empty=
-      !(e.notes||"").trim() &&
-      !(e.symptoms||[]).length &&
-      !e.mood &&
-      !e.energy &&
-      !(e.supportNeeds||[]).length &&
-      !(e.supportNote||"").trim();
-
+    const empty=!(e.notes||"").trim()&&!(e.symptoms||[]).length&&!e.mood&&!e.energy&&!(e.supportNeeds||[]).length&&!(e.supportNote||"").trim();
     if(empty) delete state.checkins[date];
   }
 
@@ -631,14 +656,12 @@ footer{text-align:center;color:var(--muted);font-size:12px;margin-top:24px;line-
     renderJournal();
     msg("journalstatus","Viewing "+prettyDate($("journaldate").value)+".");
   });
-
   $("symdate").addEventListener("change",loadSymptoms);
   $("supportdate").addEventListener("change",loadSupport);
 
   $("notes").addEventListener("input",()=>{
     const date=$("journaldate").value||today();
     updateEntry(date,{notes:$("notes").value});
-    scheduleSave("journalstatus");
     renderEntryListSoon();
   });
 
@@ -646,7 +669,6 @@ footer{text-align:center;color:var(--muted);font-size:12px;margin-top:24px;line-
     dirty=true;
     msg("journalstatus","Saving changes…");
     cancelPendingSave();
-
     saveTimer=setTimeout(async()=>{
       saveTimer=null;
       await saveState("journalstatus");
@@ -664,81 +686,51 @@ footer{text-align:center;color:var(--muted);font-size:12px;margin-top:24px;line-
 
   function onSymptomsChange(){
     const date=$("symdate").value||today();
-
     updateEntry(date,{
       symptoms:[...document.querySelectorAll("#symptomlist input:checked")].map(x=>x.value),
       mood:$("mood").value,
       energy:$("energy").value
     });
-
     scheduleSave("symptomstatus");
   }
-
-  document.querySelectorAll("#symptomlist input").forEach(x=>{
-    x.addEventListener("change",onSymptomsChange);
-  });
-
+  document.querySelectorAll("#symptomlist input").forEach(x=>x.addEventListener("change",onSymptomsChange));
   $("mood").addEventListener("change",onSymptomsChange);
   $("energy").addEventListener("change",onSymptomsChange);
 
   function onSupportChange(){
     const date=$("supportdate").value||today();
-
     updateEntry(date,{
       supportNeeds:[...document.querySelectorAll("#supportlist input:checked")].map(x=>x.value),
       supportNote:$("supportnote").value
     });
-
     scheduleSave("supportstatus");
   }
-
-  document.querySelectorAll("#supportlist input").forEach(x=>{
-    x.addEventListener("change",onSupportChange);
-  });
-
+  document.querySelectorAll("#supportlist input").forEach(x=>x.addEventListener("change",onSupportChange));
   $("supportnote").addEventListener("input",onSupportChange);
 
-  /*
-   * Save the latest state to the owner's tracker row.
-   * If a previous save is in progress, wait for it to finish,
-   * then save the newest state. This is important for deletions.
-   */
   async function saveState(statusId){
     if(!user||!ownerId) return;
-
     cancelPendingSave();
-
     while(saving){
       await new Promise(resolve=>setTimeout(resolve,100));
       if(!user||!ownerId) return;
     }
-
     saving=true;
     dirty=true;
-
     const snapshot=JSON.parse(JSON.stringify(state));
     const snapshotText=JSON.stringify(snapshot);
-
     try{
       const {error}=await db.from("taynz_tracker_state").upsert({
-        owner_id:ownerId,
-        state:snapshot,
-        updated_at:new Date().toISOString()
+        owner_id:ownerId,state:snapshot,updated_at:new Date().toISOString()
       },{onConflict:"owner_id"});
-
       if(error) throw error;
-
-      if(JSON.stringify(state)===snapshotText){
-        dirty=false;
-      }
-
+      if(JSON.stringify(state)===snapshotText) dirty=false;
       msg(statusId,dirty?"A newer change is waiting to save.":"Saved ✓");
     }catch(err){
       msg(statusId,"Couldn't save: "+(err.message||"Please check your connection."));
     }finally{
       saving=false;
     }
-
     if(dirty&&user&&ownerId&&!saveTimer){
       saveTimer=setTimeout(()=>{
         saveTimer=null;
@@ -747,38 +739,18 @@ footer{text-align:center;color:var(--muted);font-size:12px;margin-top:24px;line-
     }
   }
 
-  /*
-   * Delete every piece of information stored for one date.
-   * A confirmation is required, and the deletion is saved to Supabase.
-   */
   $("deletejournal").onclick=async()=>{
     const date=$("journaldate").value||today();
-
-    if(!confirm(
-      "Delete the entire entry for "+prettyDate(date)+"?\n\n"+
-      "This removes notes, symptoms, mood, energy, and support details for this date. This cannot be undone."
-    )){
-      return;
-    }
-
-    if(!user||!ownerId){
-      return msg("journalstatus","Please sign in before deleting an entry.");
-    }
-
+    if(!confirm("Delete the entire entry for "+prettyDate(date)+"?\n\nThis removes notes, symptoms, mood, energy, and support details for this date. This cannot be undone.")) return;
+    if(!user||!ownerId) return msg("journalstatus","Please sign in before deleting an entry.");
     cancelPendingSave();
     $("deletejournal").disabled=true;
     msg("journalstatus","Deleting this day's entry…");
-
     try{
       delete state.checkins[date];
       dirty=true;
-
       await saveState("journalstatus");
-
-      if(dirty){
-        throw new Error("The latest change could not be confirmed as saved. Please check your connection and try again.");
-      }
-
+      if(dirty) throw new Error("The latest change could not be confirmed as saved. Please check your connection and try again.");
       renderJournal();
       loadSymptomsIfSameDate(date);
       loadSupportIfSameDate(date);
@@ -790,42 +762,18 @@ footer{text-align:center;color:var(--muted);font-size:12px;margin-top:24px;line-
     }
   };
 
-  /*
-   * Clear only symptoms, mood, and energy for the selected date.
-   * Journal notes and support information are preserved.
-   */
   $("clearsymptoms").onclick=async()=>{
     const date=$("symdate").value||today();
-
-    if(!confirm(
-      "Clear symptoms, mood, and energy for "+prettyDate(date)+"?\n\n"+
-      "Your journal notes and support details will be kept."
-    )){
-      return;
-    }
-
-    if(!user||!ownerId){
-      return msg("symptomstatus","Please sign in before clearing this check-in.");
-    }
-
+    if(!confirm("Clear symptoms, mood, and energy for "+prettyDate(date)+"?\n\nYour journal notes and support details will be kept.")) return;
+    if(!user||!ownerId) return msg("symptomstatus","Please sign in before clearing this check-in.");
     cancelPendingSave();
     $("clearsymptoms").disabled=true;
     msg("symptomstatus","Clearing this day's symptoms…");
-
     try{
-      updateEntry(date,{
-        symptoms:[],
-        mood:"",
-        energy:""
-      });
-
+      updateEntry(date,{symptoms:[],mood:"",energy:""});
       dirty=true;
       await saveState("symptomstatus");
-
-      if(dirty){
-        throw new Error("The latest change could not be confirmed as saved. Please check your connection and try again.");
-      }
-
+      if(dirty) throw new Error("The latest change could not be confirmed as saved. Please check your connection and try again.");
       loadSymptoms();
       renderJournal();
       msg("symptomstatus","Symptoms, mood, and energy cleared for "+prettyDate(date)+".");
@@ -836,41 +784,18 @@ footer{text-align:center;color:var(--muted);font-size:12px;margin-top:24px;line-
     }
   };
 
-  /*
-   * Clear only support choices and support notes for the selected date.
-   * Journal notes and symptom information are preserved.
-   */
   $("clearsupport").onclick=async()=>{
     const date=$("supportdate").value||today();
-
-    if(!confirm(
-      "Clear support choices and support notes for "+prettyDate(date)+"?\n\n"+
-      "Your journal notes and symptoms will be kept."
-    )){
-      return;
-    }
-
-    if(!user||!ownerId){
-      return msg("supportstatus","Please sign in before clearing support details.");
-    }
-
+    if(!confirm("Clear support choices and support notes for "+prettyDate(date)+"?\n\nYour journal notes and symptoms will be kept.")) return;
+    if(!user||!ownerId) return msg("supportstatus","Please sign in before clearing support details.");
     cancelPendingSave();
     $("clearsupport").disabled=true;
     msg("supportstatus","Clearing this day's support details…");
-
     try{
-      updateEntry(date,{
-        supportNeeds:[],
-        supportNote:""
-      });
-
+      updateEntry(date,{supportNeeds:[],supportNote:""});
       dirty=true;
       await saveState("supportstatus");
-
-      if(dirty){
-        throw new Error("The latest change could not be confirmed as saved. Please check your connection and try again.");
-      }
-
+      if(dirty) throw new Error("The latest change could not be confirmed as saved. Please check your connection and try again.");
       loadSupport();
       renderJournal();
       msg("supportstatus","Support details cleared for "+prettyDate(date)+".");
@@ -884,37 +809,24 @@ footer{text-align:center;color:var(--muted);font-size:12px;margin-top:24px;line-
   function loadSymptomsIfSameDate(date){
     if($("symdate").value===date) loadSymptoms();
   }
-
   function loadSupportIfSameDate(date){
     if($("supportdate").value===date) loadSupport();
   }
 
   async function loadState(){
     const {data,error}=await db.from("taynz_tracker_state")
-      .select("state,updated_at")
-      .eq("owner_id",ownerId)
-      .maybeSingle();
-
+      .select("state,updated_at").eq("owner_id",ownerId).maybeSingle();
     if(error) throw error;
-
     if(data&&data.state){
-      state={
-        ...state,
-        ...data.state,
-        checkins:data.state.checkins||{}
-      };
+      state={...state,...data.state,checkins:data.state.checkins||{}};
     }else if(ownerId===user.id){
       const {error:insertError}=await db.from("taynz_tracker_state").insert({
-        owner_id:ownerId,
-        state,
-        updated_at:new Date().toISOString()
+        owner_id:ownerId,state,updated_at:new Date().toISOString()
       });
-
       if(insertError) throw insertError;
     }else{
       throw new Error("Your trusted person's tracker hasn't been created yet. Ask them to sign in first.");
     }
-
     renderHome();
     renderJournal();
     loadSymptoms();
@@ -923,33 +835,24 @@ footer{text-align:center;color:var(--muted);font-size:12px;margin-top:24px;line-
 
   async function loadShareInfo(){
     if(ownerId!==user.id) return;
-
     const {data,error}=await db.rpc("taynz_get_share_info");
     if(error) throw error;
-
     const email=data&&data.email;
-
     msg("sharestatus",email?"Approved account: "+email:"No trusted person approved yet.");
     $("revoke").classList.toggle("hidden",!email);
   }
 
   async function startApp(signedInUser){
     user=signedInUser;
-
     const {data:resolvedOwner,error}=await db.rpc("taynz_get_tracker_owner");
     if(error) throw error;
-
     ownerId=resolvedOwner;
-
-    if(!ownerId){
-      throw new Error("No tracker is available for this account.");
-    }
+    if(!ownerId) throw new Error("No tracker is available for this account.");
 
     $("auth").classList.add("hidden");
     $("app").classList.remove("hidden");
     $("navbar").classList.remove("hidden");
     $("signout").classList.remove("hidden");
-
     $("ownercontrols").classList.toggle("hidden",ownerId!==user.id);
     $("membernotice").classList.toggle("hidden",ownerId===user.id);
 
@@ -964,80 +867,45 @@ footer{text-align:center;color:var(--muted);font-size:12px;margin-top:24px;line-
 
   function subscribeRealtime(){
     if(channel) db.removeChannel(channel);
-
     channel=db.channel("taynz-state-"+ownerId)
       .on("postgres_changes",{
-        event:"UPDATE",
-        schema:"public",
-        table:"taynz_tracker_state",
-        filter:"owner_id=eq."+ownerId
+        event:"UPDATE",schema:"public",table:"taynz_tracker_state",filter:"owner_id=eq."+ownerId
       },payload=>{
         if(dirty||saving) return;
-
         if(payload.new&&payload.new.state){
-          state={
-            ...state,
-            ...payload.new.state,
-            checkins:payload.new.state.checkins||{}
-          };
-
-          renderHome();
-          renderJournal();
-          loadSymptoms();
-          loadSupport();
-
+          state={...state,...payload.new.state,checkins:payload.new.state.checkins||{}};
+          renderHome();renderJournal();loadSymptoms();loadSupport();
           if(activeTab==="journal") msg("journalstatus","Latest shared changes synced ✓");
           if(activeTab==="symptoms") msg("symptomstatus","Latest shared changes synced ✓");
           if(activeTab==="support") msg("supportstatus","Latest shared changes synced ✓");
         }
       })
       .on("postgres_changes",{
-        event:"INSERT",
-        schema:"public",
-        table:"taynz_tracker_state",
-        filter:"owner_id=eq."+ownerId
+        event:"INSERT",schema:"public",table:"taynz_tracker_state",filter:"owner_id=eq."+ownerId
       },payload=>{
         if(dirty||saving) return;
-
         if(payload.new&&payload.new.state){
-          state={
-            ...state,
-            ...payload.new.state,
-            checkins:payload.new.state.checkins||{}
-          };
-
-          renderHome();
-          renderJournal();
-          loadSymptoms();
-          loadSupport();
+          state={...state,...payload.new.state,checkins:payload.new.state.checkins||{}};
+          renderHome();renderJournal();loadSymptoms();loadSupport();
         }
-      })
-      .subscribe();
+      }).subscribe();
   }
 
   async function checkAccess(){
     if(!user||!ownerId) return;
-
     try{
       const {data,error}=await db.rpc("taynz_get_tracker_owner");
-
       if(error||data!==ownerId){
         cancelPendingSave();
-
         state={lastPeriod:"",cycleLength:28,periodLength:5,checkins:{}};
-
         if(channel) await db.removeChannel(channel);
-        channel=null;
-        ownerId=null;
-
+        channel=null;ownerId=null;
         if(refreshTimer) clearInterval(refreshTimer);
         refreshTimer=null;
-
         $("app").classList.add("hidden");
         $("navbar").classList.add("hidden");
         $("signout").classList.add("hidden");
         $("auth").classList.remove("hidden");
-
         msg("authmsg","Your access has changed. Please sign in again.");
         await db.auth.signOut();
       }
@@ -1046,21 +914,12 @@ footer{text-align:center;color:var(--muted);font-size:12px;margin-top:24px;line-
 
   $("approve").onclick=async()=>{
     const email=$("inviteemail").value.trim();
-
-    if(!email){
-      return msg("sharestatus","Enter their account email first.");
-    }
-
+    if(!email) return msg("sharestatus","Enter their account email first.");
     $("approve").disabled=true;
     msg("sharestatus","Approving…");
-
     try{
-      const {error}=await db.rpc("taynz_approve_trusted_email",{
-        invited_email:email
-      });
-
+      const {error}=await db.rpc("taynz_approve_trusted_email",{invited_email:email});
       if(error) throw error;
-
       $("inviteemail").value="";
       await loadShareInfo();
       msg("sharestatus","Trusted person approved. They can sign in using their own confirmed account.");
@@ -1073,13 +932,10 @@ footer{text-align:center;color:var(--muted);font-size:12px;margin-top:24px;line-
 
   $("revoke").onclick=async()=>{
     if(!confirm("Revoke this person's access to your tracker?")) return;
-
     $("revoke").disabled=true;
-
     try{
       const {error}=await db.rpc("taynz_revoke_trusted_access");
       if(error) throw error;
-
       await loadShareInfo();
       msg("sharestatus","Access revoked.");
     }catch(err){
@@ -1091,31 +947,23 @@ footer{text-align:center;color:var(--muted);font-size:12px;margin-top:24px;line-
 
   $("signout").onclick=async()=>{
     cancelPendingSave();
-
     if(channel) await db.removeChannel(channel);
     channel=null;
-
     if(refreshTimer) clearInterval(refreshTimer);
     refreshTimer=null;
-
     await db.auth.signOut();
-
-    user=null;
-    ownerId=null;
+    user=null;ownerId=null;
     state={lastPeriod:"",cycleLength:28,periodLength:5,checkins:{}};
-    dirty=false;
-
+    dirty=false;selectedCycleDay=null;
     $("app").classList.add("hidden");
     $("navbar").classList.add("hidden");
     $("signout").classList.add("hidden");
     $("auth").classList.remove("hidden");
-
     msg("authmsg","Signed out.");
   };
 
   db.auth.getSession().then(async({data,error})=>{
     if(error) return msg("authmsg",error.message);
-
     if(data.session){
       try{
         await startApp(data.session.user);
@@ -1131,7 +979,6 @@ footer{text-align:center;color:var(--muted);font-size:12px;margin-top:24px;line-
   db.auth.onAuthStateChange(event=>{
     if(event==="SIGNED_OUT"){
       cancelPendingSave();
-
       $("app").classList.add("hidden");
       $("navbar").classList.add("hidden");
       $("signout").classList.add("hidden");
