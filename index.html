@@ -7,46 +7,83 @@
 <meta name="theme-color" content="#10090f">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>Taynz. — Cycle Tracker</title>
+<title>Taynz. — Your Cycle Companion</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-:root{color-scheme:dark;--bg:#10090f;--panel:#1c111a;--pink:#ff3b82;--red:#ff4e61;--muted:#bbaab6;--line:#392331}
+:root{
+  color-scheme:dark;
+  --bg:#10090f;--panel:#1c111a;--panel2:#251521;
+  --pink:#ff3b82;--red:#ff4e61;--text:#fff;
+  --muted:#bbaab6;--line:#392331;--soft:#ffc0d8;
+}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:#fff;font:16px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-main{width:min(100%,600px);margin:auto;padding:24px 18px 48px}
-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:25px}
-.logo{font-size:27px;font-weight:900;letter-spacing:-1px}
+body{margin:0;background:var(--bg);color:var(--text);
+font:16px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+main{width:min(100%,600px);margin:auto;padding:22px 17px 110px}
+header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
+.logo{font-size:28px;font-weight:900;letter-spacing:-1px}
 .logo span{color:var(--pink)}
-.small{font-size:13px;color:var(--muted)}
-h1{font-size:28px;letter-spacing:-.8px;margin:8px 0}
-h2{font-size:18px;margin:0 0 14px}
+.small{font-size:13px;color:var(--muted);line-height:1.5}
+.muted{color:var(--muted)}
+h1{font-size:29px;letter-spacing:-.8px;margin:8px 0}
+h2{font-size:19px;margin:0 0 13px}
+h3{font-size:16px;margin:0 0 8px}
 p{line-height:1.5}
-.panel{background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:19px;margin:15px 0}
-input,textarea,select{width:100%;background:#120b12;color:white;border:1px solid #513344;border-radius:12px;padding:13px;font:inherit;margin:7px 0 13px}
-textarea{resize:vertical;min-height:90px}
-label{display:block;color:#eadde5;font-size:14px}
-button{border:0;border-radius:13px;padding:13px 16px;font:inherit;font-weight:750;cursor:pointer}
-.primary{background:linear-gradient(110deg,var(--pink),var(--red));color:#fff;width:100%}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:21px;padding:18px;margin:14px 0}
+label{display:block;font-size:14px;color:#eadde5;margin-bottom:5px}
+input:not([type=checkbox]),textarea,select{
+  width:100%;background:#120b12;color:white;border:1px solid #513344;
+  border-radius:12px;padding:13px;margin:5px 0 14px;outline:none
+}
+input:focus,textarea:focus,select:focus{border-color:var(--pink)}
+textarea{resize:vertical;min-height:125px}
+button{border:0;border-radius:13px;padding:12px 15px;font-weight:750}
+.primary{background:linear-gradient(110deg,var(--pink),var(--red));color:white;width:100%}
 .secondary{background:#35202f;color:white;border:1px solid #593449}
-button:disabled{opacity:.5}
+.ghost{background:transparent;border:1px solid var(--line);color:var(--soft)}
+button:disabled{opacity:.55}
+.hidden{display:none!important}
 .row{display:flex;gap:10px;align-items:center}
 .row>*{flex:1;min-width:0}
-.hidden{display:none!important}
-.muted{color:var(--muted)}
-.status{font-size:13px;color:var(--muted);min-height:20px;margin:10px 0}
-.circle-wrap{display:flex;justify-content:center;margin:20px 0}
-.cycle-circle{width:224px;height:224px;border-radius:50%;display:flex;align-items:center;justify-content:center;text-align:center;position:relative;background:conic-gradient(var(--pink) 0deg,var(--red) 120deg,#56213e 240deg,#2c1928 360deg)}
+.pill{display:inline-block;background:#35202f;color:var(--soft);border-radius:99px;padding:7px 11px;font-size:12px}
+.status{font-size:13px;color:var(--muted);min-height:18px;margin-top:9px;line-height:1.45}
+.circle-wrap{display:flex;justify-content:center;margin:23px 0}
+.cycle-circle{width:220px;height:220px;border-radius:50%;display:flex;align-items:center;justify-content:center;text-align:center;background:conic-gradient(var(--pink),var(--red),#68264a,#2c1928,var(--pink));position:relative}
 .cycle-circle:before{content:"";position:absolute;inset:10px;background:#170d16;border-radius:50%}
 .circle-content{position:relative;z-index:1}
-.day-number{font-size:49px;line-height:1.05;font-weight:900}
-.day-label{color:#d9c5d2;font-size:13px;margin-top:7px}
-.pill{display:inline-block;border-radius:99px;padding:7px 11px;background:#35202f;color:#ffc0d8;font-size:12px}
-.symptoms{display:grid;grid-template-columns:1fr 1fr;gap:9px}
-.symptom{background:#150d15;border:1px solid var(--line);border-radius:12px;padding:11px;font-size:14px}
-.symptom input{width:auto;margin:0 7px 0 0;accent-color:var(--pink)}
-footer{text-align:center;color:var(--muted);font-size:12px;margin-top:30px}
+.day-number{font-size:50px;line-height:1.1;font-weight:900}
+.day-label{font-size:13px;color:#d9c5d2;margin-top:6px}
+.section{animation:appear .16s ease}
+@keyframes appear{from{opacity:.6;transform:translateY(3px)}to{opacity:1;transform:none}}
+.topline{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px}
+.date-chip{color:var(--soft);font-size:13px}
+.quick-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.quick{padding:15px;background:var(--panel2);border:1px solid var(--line);border-radius:16px;text-align:left;color:white}
+.quick .emoji{font-size:23px;display:block;margin-bottom:9px}
+.quick strong{display:block;margin-bottom:4px}
+.quick span:last-child{font-size:12px;color:var(--muted);line-height:1.4}
+.symptoms{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.symptom{display:flex;align-items:center;gap:8px;padding:11px;background:#150d15;border:1px solid var(--line);border-radius:12px;font-size:13px}
+.symptom input{accent-color:var(--pink);width:17px;height:17px;flex-shrink:0}
+.entry-card{width:100%;text-align:left;background:#170d16;color:white;border:1px solid var(--line);border-radius:14px;padding:13px;margin:6px 0}
+.entry-card strong{display:block;margin-bottom:5px}
+.entry-card p{margin:5px 0;font-size:13px;color:var(--muted);overflow-wrap:anywhere}
+.resource{padding:13px 0;border-bottom:1px solid var(--line)}
+.resource:last-child{border-bottom:0}
+.resource p{font-size:14px;color:var(--muted);margin:5px 0}
+.checkrow{display:flex;gap:10px;align-items:flex-start;background:#150d15;border:1px solid var(--line);padding:12px;border-radius:12px;margin:8px 0}
+.checkrow input{accent-color:var(--pink);width:18px;height:18px;margin-top:2px;flex-shrink:0}
+.checkrow label{margin:0;line-height:1.4}
+.navbar{position:fixed;bottom:0;left:0;right:0;z-index:10;background:rgba(20,10,19,.96);backdrop-filter:blur(18px);border-top:1px solid var(--line);padding:8px 5px calc(8px + env(safe-area-inset-bottom))}
+.navinner{max-width:600px;margin:auto;display:grid;grid-template-columns:repeat(5,1fr);gap:2px}
+.navbtn{background:transparent;color:#a995a4;padding:8px 1px 5px;border-radius:12px;font-size:10px;font-weight:600;display:flex;flex-direction:column;align-items:center;gap:5px}
+.navbtn .navicon{font-size:20px;line-height:1.1}
+.navbtn.active{background:#35202f;color:#ff8eb8}
 hr{border:0;border-top:1px solid var(--line);margin:18px 0}
-a{color:#ff8eb8}
+footer{text-align:center;color:var(--muted);font-size:12px;margin-top:24px;line-height:1.5}
+@media(min-width:500px){main{padding-top:28px}.navbtn{font-size:11px}}
 </style>
 </head>
 <body>
@@ -59,7 +96,7 @@ a{color:#ff8eb8}
 <section id="auth">
   <p class="pill">YOUR CYCLE, YOUR SPACE</p>
   <h1>A little more in sync.</h1>
-  <p class="muted">Track your cycle, symptoms and mood. Share privately with one trusted person you approve.</p>
+  <p class="muted">Your cycle, your journal, your support — all in one place.</p>
   <div class="panel">
     <div class="row">
       <button id="tab-login" class="secondary">Sign in</button>
@@ -72,438 +109,593 @@ a{color:#ff8eb8}
       <input id="password" type="password" autocomplete="current-password" minlength="8" required placeholder="At least 8 characters">
       <button class="primary" id="authsubmit" type="submit">Sign in</button>
     </form>
-    <p class="small">Use your own account. Never share your password with your trusted person.</p>
     <div id="authmsg" class="status" role="status"></div>
   </div>
+  <footer>Sign in with your own account. Never share your password.</footer>
 </section>
 
 <section id="app" class="hidden">
-  <p class="pill">YOUR PRIVATE TRACKER</p>
-  <h1 id="greeting">Welcome back.</h1>
-  <p class="muted" id="accesslabel">Only you and the person you approve can access this tracker.</p>
+  <div id="home" class="section">
+    <p class="pill">YOUR CYCLE COMPANION</p>
+    <h1>Hi, welcome back.</h1>
+    <p class="muted">A space to check in with yourself.</p>
 
-  <div class="panel">
-    <div class="row">
-      <div>
-        <h2>Cycle overview</h2>
-        <div class="small" id="phase">Add your last period to begin.</div>
+    <div class="panel">
+      <div class="topline">
+        <h2 style="margin:0">Your cycle</h2>
+        <span class="date-chip" id="todaylabel"></span>
       </div>
-      <span class="pill" id="todaylabel">TODAY</span>
-    </div>
-    <div class="circle-wrap">
-      <div class="cycle-circle">
-        <div class="circle-content">
-          <div class="day-number" id="cycleday">—</div>
-          <div class="day-label" id="daycaption">CYCLE DAY</div>
+      <div class="circle-wrap">
+        <div class="cycle-circle">
+          <div class="circle-content">
+            <div class="day-number" id="cycleday">—</div>
+            <div class="day-label">CYCLE DAY</div>
+          </div>
         </div>
       </div>
-    </div>
-    <p id="prediction" class="muted small" style="text-align:center">Your estimates will appear here.</p>
-  </div>
-
-  <div class="panel">
-    <h2>Cycle settings</h2>
-    <label for="lastperiod">First day of your last period</label>
-    <input id="lastperiod" type="date">
-    <div class="row">
-      <div>
-        <label for="cyclelength">Usual cycle length (days)</label>
-        <input id="cyclelength" type="number" min="15" max="60" value="28">
+      <p id="phase" style="text-align:center;margin-bottom:4px">Start by adding your last period.</p>
+      <p id="prediction" class="small" style="text-align:center">Your estimate will appear here.</p>
+      <hr>
+      <h3>Cycle settings</h3>
+      <label for="lastperiod">First day of your last period</label>
+      <input id="lastperiod" type="date">
+      <div class="row">
+        <div>
+          <label for="cyclelength">Cycle length</label>
+          <input id="cyclelength" type="number" min="15" max="60" value="28">
+        </div>
+        <div>
+          <label for="periodlength">Period length</label>
+          <input id="periodlength" type="number" min="1" max="15" value="5">
+        </div>
       </div>
-      <div>
-        <label for="periodlength">Period length (days)</label>
-        <input id="periodlength" type="number" min="1" max="15" value="5">
+      <button id="savecycle" class="primary">Save cycle settings</button>
+      <div id="cyclemsg" class="status" role="status"></div>
+    </div>
+
+    <h2>Where would you like to go?</h2>
+    <div class="quick-grid">
+      <button class="quick" data-go="journal"><span class="emoji">📔</span><strong>My journal</strong><span>Notes and memories by day</span></button>
+      <button class="quick" data-go="symptoms"><span class="emoji">💗</span><strong>Check in</strong><span>Log how you're feeling</span></button>
+      <button class="quick" data-go="guide"><span class="emoji">🌸</span><strong>Period guide</strong><span>Helpful information and tips</span></button>
+      <button class="quick" data-go="support"><span class="emoji">🫶</span><strong>My support</strong><span>Ways your partner can help</span></button>
+    </div>
+  </div>
+
+  <div id="journal" class="section hidden">
+    <p class="pill">YOUR PERSONAL SPACE</p>
+    <h1>My journal</h1>
+    <p class="muted">Every day gets its own entry. Choose a date to revisit what you wrote.</p>
+    <div class="panel">
+      <label for="journaldate">Journal date</label>
+      <input id="journaldate" type="date">
+      <div id="journaldaylabel" class="small"></div>
+      <label for="notes">Your notes</label>
+      <textarea id="notes" placeholder="How was your day? What would you like to remember?"></textarea>
+      <div id="journalstatus" class="status" role="status">Your notes save automatically as you write.</div>
+    </div>
+    <h2>Past entries</h2>
+    <p class="small">Your saved journal days appear here.</p>
+    <div id="entrylist"></div>
+  </div>
+
+  <div id="symptoms" class="section hidden">
+    <p class="pill">DAILY CHECK-IN</p>
+    <h1>How are you feeling?</h1>
+    <p class="muted">Your symptoms and mood are saved to the date you select.</p>
+    <div class="panel">
+      <label for="symdate">Check-in date</label>
+      <input id="symdate" type="date">
+      <h3>Symptoms</h3>
+      <div class="symptoms" id="symptomlist">
+        <label class="symptom"><input type="checkbox" value="Cramps">Cramps</label>
+        <label class="symptom"><input type="checkbox" value="Headache">Headache</label>
+        <label class="symptom"><input type="checkbox" value="Bloating">Bloating</label>
+        <label class="symptom"><input type="checkbox" value="Tender breasts">Tender breasts</label>
+        <label class="symptom"><input type="checkbox" value="Fatigue">Fatigue</label>
+        <label class="symptom"><input type="checkbox" value="Acne">Acne</label>
+        <label class="symptom"><input type="checkbox" value="Spotting">Spotting</label>
+        <label class="symptom"><input type="checkbox" value="Cravings">Cravings</label>
+        <label class="symptom"><input type="checkbox" value="Backache">Backache</label>
+        <label class="symptom"><input type="checkbox" value="Nausea">Nausea</label>
+      </div>
+      <hr>
+      <label for="mood">Mood</label>
+      <select id="mood">
+        <option value="">Choose mood</option>
+        <option>Happy</option><option>Calm</option><option>Energetic</option>
+        <option>Anxious</option><option>Irritable</option><option>Sad</option>
+        <option>Emotional</option><option>Tired</option><option>Overwhelmed</option>
+      </select>
+      <label for="energy">Energy</label>
+      <select id="energy">
+        <option value="">Choose energy level</option>
+        <option value="1">Very low</option><option value="2">Low</option>
+        <option value="3">Okay</option><option value="4">Good</option><option value="5">High</option>
+      </select>
+      <div id="symptomstatus" class="status" role="status">Changes save automatically.</div>
+    </div>
+  </div>
+
+  <div id="guide" class="section hidden">
+    <p class="pill">HELPFUL INFORMATION</p>
+    <h1>Period guide</h1>
+    <p class="muted">Simple information to help you understand and prepare for your cycle.</p>
+
+    <div class="panel">
+      <h2>What might I feel?</h2>
+      <div class="resource">
+        <h3>🩸 During your period</h3>
+        <p>Bleeding, cramps, tiredness, headaches, backache and changes in mood can happen. Symptoms vary from person to person and from cycle to cycle.</p>
+      </div>
+      <div class="resource">
+        <h3>🌱 After your period</h3>
+        <p>Energy and mood may improve for some people. Discharge and energy can change throughout the cycle.</p>
+      </div>
+      <div class="resource">
+        <h3>🌼 Around ovulation</h3>
+        <p>Some people notice slippery cervical mucus or mild one-sided discomfort. Ovulation dates are estimates, not guarantees.</p>
+      </div>
+      <div class="resource">
+        <h3>🌙 Before your period</h3>
+        <p>Bloating, tender breasts, cravings, fatigue, irritability or feeling emotional can occur in the days before bleeding begins.</p>
       </div>
     </div>
+
+    <div class="panel">
+      <h2>What should I keep handy?</h2>
+      <div class="resource"><h3>Period products</h3><p>Pads, tampons, period underwear or a menstrual cup — whichever you're comfortable using.</p></div>
+      <div class="resource"><h3>Comfort</h3><p>A heating pad or warm water bottle, comfortable clothes and rest when you need it.</p></div>
+      <div class="resource"><h3>Everyday essentials</h3><p>Water, regular meals, spare underwear and any usual pain relief you can safely take.</p></div>
+    </div>
+
+    <div class="panel">
+      <h2>When to get medical help</h2>
+      <p class="small">Seek urgent medical care for severe or sudden pelvic pain, fainting, or bleeding that soaks through a pad or tampon every hour for two or more hours, especially with dizziness or shortness of breath. Talk to a healthcare professional if symptoms regularly disrupt daily life.</p>
+    </div>
   </div>
 
-  <div class="panel">
-    <h2>Daily check-in</h2>
-    <label for="entrydate">Date</label>
-    <input id="entrydate" type="date">
-    <label>Symptoms</label>
-    <div class="symptoms" id="symptoms">
-      <label class="symptom"><input type="checkbox" value="Cramps">Cramps</label>
-      <label class="symptom"><input type="checkbox" value="Headache">Headache</label>
-      <label class="symptom"><input type="checkbox" value="Bloating">Bloating</label>
-      <label class="symptom"><input type="checkbox" value="Tender breasts">Tender breasts</label>
-      <label class="symptom"><input type="checkbox" value="Fatigue">Fatigue</label>
-      <label class="symptom"><input type="checkbox" value="Acne">Acne</label>
-      <label class="symptom"><input type="checkbox" value="Spotting">Spotting</label>
-      <label class="symptom"><input type="checkbox" value="Cravings">Cravings</label>
+  <div id="support" class="section hidden">
+    <p class="pill">CARE AND CONNECTION</p>
+    <h1>My support</h1>
+    <p class="muted">Small things your boyfriend can do to help you feel cared for. Choose what would actually help you today.</p>
+    <div class="panel">
+      <label for="supportdate">For this day</label>
+      <input id="supportdate" type="date">
+      <h2>What I need today</h2>
+      <div id="supportlist">
+        <div class="checkrow"><input type="checkbox" value="A hug and affection"><label>A hug and affection</label></div>
+        <div class="checkrow"><input type="checkbox" value="Patience and understanding"><label>Patience and understanding</label></div>
+        <div class="checkrow"><input type="checkbox" value="Help with chores"><label>Help with chores or everyday tasks</label></div>
+        <div class="checkrow"><input type="checkbox" value="A snack or a meal"><label>A snack or a meal</label></div>
+        <div class="checkrow"><input type="checkbox" value="Heating pad or hot water bottle"><label>Help getting a heating pad or hot water bottle</label></div>
+        <div class="checkrow"><input type="checkbox" value="Quiet time and rest"><label>Quiet time and rest</label></div>
+        <div class="checkrow"><input type="checkbox" value="Listen without trying to fix it"><label>Listen without trying to fix everything</label></div>
+        <div class="checkrow"><input type="checkbox" value="Ask me what I need"><label>Ask me what I need instead of guessing</label></div>
+      </div>
+      <hr>
+      <label for="supportnote">Anything else I need</label>
+      <textarea id="supportnote" placeholder="For example: please check in with me after work…"></textarea>
+      <div id="supportstatus" class="status" role="status">Your preferences save automatically for this date.</div>
     </div>
-    <label for="mood" style="margin-top:16px">Mood</label>
-    <select id="mood">
-      <option value="">Choose mood</option>
-      <option>Happy</option><option>Calm</option><option>Energetic</option>
-      <option>Anxious</option><option>Irritable</option><option>Sad</option>
-      <option>Emotional</option><option>Tired</option>
-    </select>
-    <label for="energy">Energy level</label>
-    <select id="energy">
-      <option value="">Choose energy level</option>
-      <option value="1">1 — Very low</option>
-      <option value="2">2 — Low</option>
-      <option value="3">3 — Okay</option>
-      <option value="4">4 — Good</option>
-      <option value="5">5 — High</option>
-    </select>
-    <label for="notes">Notes</label>
-    <textarea id="notes" placeholder="Anything you want to remember about today…"></textarea>
-    <button id="save" class="primary">Save check-in and sync</button>
-    <div id="savemsg" class="status" role="status"></div>
+
+    <div class="panel">
+      <h2>Share with my trusted person</h2>
+      <p class="small">Approve one registered account so your trusted person can access your shared tracker. They must use their own confirmed account.</p>
+      <div id="ownercontrols">
+        <label for="inviteemail">Their account email</label>
+        <input id="inviteemail" type="email" placeholder="trusted.person@example.com">
+        <button id="approve" class="primary">Approve trusted person</button>
+        <div id="sharestatus" class="status" role="status"></div>
+        <button id="revoke" class="secondary hidden">Revoke access</button>
+      </div>
+      <div id="membernotice" class="hidden small">You're viewing a tracker shared with your account. The owner controls your access.</div>
+    </div>
   </div>
 
-  <div class="panel">
-    <h2>Trusted person</h2>
-    <p class="small">Approve one registered account to view and update your shared cycle information. They need their own account and confirmed email address.</p>
-    <div id="ownercontrols">
-      <label for="inviteemail">Their account email</label>
-      <input id="inviteemail" type="email" placeholder="trusted.person@example.com">
-      <button id="approve" class="primary">Approve trusted person</button>
-      <div id="sharestatus" class="status" role="status"></div>
-      <button id="revoke" class="secondary hidden">Revoke access</button>
-    </div>
-    <div id="membernotice" class="hidden">
-      <p class="pill">SHARED ACCESS</p>
-      <p>You are viewing a tracker shared with your account. The owner controls your access.</p>
-    </div>
-  </div>
-  <footer>Cycle estimates are predictions, not contraception or medical advice. Your data is stored in your connected Supabase project.</footer>
+  <footer>Cycle predictions are estimates, not contraception or medical advice. Your personal entries are stored in your connected Supabase project.</footer>
 </section>
 </main>
+
+<nav id="navbar" class="navbar hidden" aria-label="Main navigation">
+  <div class="navinner">
+    <button class="navbtn active" data-tab="home"><span class="navicon">◉</span>Home</button>
+    <button class="navbtn" data-tab="journal"><span class="navicon">▤</span>Journal</button>
+    <button class="navbtn" data-tab="symptoms"><span class="navicon">♡</span>Symptoms</button>
+    <button class="navbtn" data-tab="guide"><span class="navicon">✿</span>Guide</button>
+    <button class="navbtn" data-tab="support"><span class="navicon">♥</span>Support</button>
+  </div>
+</nav>
 
 <script>
 (() => {
   const SUPABASE_URL = "https://lrqzyjunyljbvgeilnak.supabase.co";
   const SUPABASE_KEY = "sb_publishable_Hfr1kmoQwImvjbUwqaOUpQ_6F7CAFIR";
   const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
   const $ = id => document.getElementById(id);
+
   const today = () => {
     const d = new Date();
     return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+  };
+  const addDays = (value,n) => {
+    const [y,m,d] = value.split("-").map(Number);
+    const dt = new Date(Date.UTC(y,m-1,d+n));
+    return `${dt.getUTCFullYear()}-${String(dt.getUTCMonth()+1).padStart(2,"0")}-${String(dt.getUTCDate()).padStart(2,"0")}`;
   };
   const dateDiff = (a,b) => {
     const [ay,am,ad] = a.split("-").map(Number);
     const [by,bm,bd] = b.split("-").map(Number);
     return Math.round((Date.UTC(by,bm-1,bd)-Date.UTC(ay,am-1,ad))/86400000);
   };
-  const addDays = (value,n) => {
+  const prettyDate = value => {
+    if (!value) return "";
     const [y,m,d] = value.split("-").map(Number);
-    const date = new Date(Date.UTC(y,m-1,d+n));
-    return `${date.getUTCFullYear()}-${String(date.getUTCMonth()+1).padStart(2,"0")}-${String(date.getUTCDate()).padStart(2,"0")}`;
+    return new Date(y,m-1,d).toLocaleDateString(undefined,{weekday:"short",month:"short",day:"numeric",year:"numeric"});
   };
+  const blankEntry = () => ({symptoms:[],mood:"",energy:"",notes:"",supportNeeds:[],supportNote:""});
+  let user = null, ownerId = null, state = {lastPeriod:"",cycleLength:28,periodLength:5,checkins:{}};
+  let channel = null, saveTimer = null, refreshTimer = null;
+  let activeTab = "home", authMode = "login", saving = false, dirty = false;
 
-  let authMode = "login";
-  let user = null;
-  let ownerId = null;
-  let state = {lastPeriod:"",cycleLength:28,periodLength:5,checkins:{}};
-  let channel = null;
-  let refreshTimer = null;
+  function msg(id,text){$(id).textContent=text||"";}
+  function currentEntry(date){return state.checkins[date] || blankEntry();}
 
-  function message(id, text) { $(id).textContent = text || ""; }
-
-  function setAuthMode(mode) {
-    authMode = mode;
-    $("authsubmit").textContent = mode === "login" ? "Sign in" : "Create account";
-    $("password").autocomplete = mode === "login" ? "current-password" : "new-password";
-    message("authmsg", mode === "signup" ? "After registering, check your email if confirmation is required." : "");
+  function setTab(tab){
+    activeTab = tab;
+    document.querySelectorAll(".section[id]").forEach(el=>{
+      if(["home","journal","symptoms","guide","support"].includes(el.id))
+        el.classList.toggle("hidden",el.id!==tab);
+    });
+    document.querySelectorAll(".navbtn").forEach(el=>el.classList.toggle("active",el.dataset.tab===tab));
+    if(tab==="journal") renderJournal();
+    if(tab==="symptoms") loadSymptoms();
+    if(tab==="support") loadSupport();
+    window.scrollTo({top:0,behavior:"smooth"});
   }
-  $("tab-login").onclick = () => setAuthMode("login");
-  $("tab-signup").onclick = () => setAuthMode("signup");
+  document.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>setTab(b.dataset.tab));
+  document.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>setTab(b.dataset.go));
 
-  $("authform").addEventListener("submit", async e => {
+  function setAuthMode(mode){
+    authMode=mode;
+    $("authsubmit").textContent=mode==="login"?"Sign in":"Create account";
+    $("password").autocomplete=mode==="login"?"current-password":"new-password";
+    msg("authmsg","");
+  }
+  $("tab-login").onclick=()=>setAuthMode("login");
+  $("tab-signup").onclick=()=>setAuthMode("signup");
+
+  $("authform").addEventListener("submit",async e=>{
     e.preventDefault();
-    const email = $("email").value.trim();
-    const password = $("password").value;
-    $("authsubmit").disabled = true;
-    message("authmsg", "Please wait…");
-    try {
-      if (authMode === "signup") {
-        const {data,error} = await db.auth.signUp({
+    $("authsubmit").disabled=true;
+    msg("authmsg","Please wait…");
+    try{
+      const email=$("email").value.trim(),password=$("password").value;
+      if(authMode==="signup"){
+        const {data,error}=await db.auth.signUp({
           email,password,
-          options:{emailRedirectTo:location.origin + location.pathname}
+          options:{emailRedirectTo:location.origin+location.pathname}
         });
-        if (error) throw error;
-        if (!data.session) {
-          message("authmsg", "Account created. Check your email to confirm it, then return here and sign in.");
-        } else {
-          message("authmsg", "Account created. Loading your tracker…");
+        if(error) throw error;
+        if(!data.session){
+          msg("authmsg","Account created. Check your email to confirm it, then return and sign in.");
+        }else{
           await startApp(data.session.user);
         }
-      } else {
-        const {data,error} = await db.auth.signInWithPassword({email,password});
-        if (error) throw error;
+      }else{
+        const {data,error}=await db.auth.signInWithPassword({email,password});
+        if(error) throw error;
         await startApp(data.user);
       }
-    } catch (err) {
-      message("authmsg", err.message || "Sign-in failed.");
-    } finally {
-      $("authsubmit").disabled = false;
-    }
+    }catch(err){msg("authmsg",err.message||"Sign-in failed.");}
+    finally{$("authsubmit").disabled=false;}
   });
 
-  function getCheckin() {
-    return state.checkins[$("entrydate").value] || {symptoms:[],mood:"",energy:"",notes:""};
+  function renderHome(){
+    $("todaylabel").textContent=prettyDate(today());
+    $("lastperiod").value=state.lastPeriod||"";
+    $("cyclelength").value=state.cycleLength||28;
+    $("periodlength").value=state.periodLength||5;
+    if(!state.lastPeriod){
+      $("cycleday").textContent="—";
+      $("phase").textContent="Add the first day of your last period.";
+      $("prediction").textContent="Your estimate will appear here.";
+      return;
+    }
+    const elapsed=dateDiff(state.lastPeriod,today());
+    const cycle=Number(state.cycleLength)||28;
+    const period=Number(state.periodLength)||5;
+    if(elapsed<0){
+      $("cycleday").textContent="—";
+      $("phase").textContent="Check your last period date.";
+      $("prediction").textContent="The selected date is in the future.";
+      return;
+    }
+    const day=(elapsed%cycle)+1;
+    const next=addDays(state.lastPeriod,Math.ceil((elapsed+1)/cycle)*cycle);
+    $("cycleday").textContent=day;
+    $("phase").textContent=day<=period?"Estimated period days":"Estimated cycle phase";
+    $("prediction").textContent="Next period estimate: "+prettyDate(next)+". Your cycle may vary.";
   }
 
-  function loadCheckin() {
-    const entry = getCheckin();
-    document.querySelectorAll("#symptoms input").forEach(box => {
-      box.checked = (entry.symptoms || []).includes(box.value);
+  $("savecycle").onclick=async()=>{
+    const cycle=Number($("cyclelength").value),period=Number($("periodlength").value);
+    if(!cycle||cycle<15||cycle>60)return msg("cyclemsg","Cycle length must be between 15 and 60 days.");
+    if(!period||period<1||period>15)return msg("cyclemsg","Period length must be between 1 and 15 days.");
+    state.lastPeriod=$("lastperiod").value;
+    state.cycleLength=cycle;state.periodLength=period;
+    await saveState("cyclemsg");
+    renderHome();
+  };
+
+  function renderJournal(){
+    const date=$("journaldate").value||today();
+    $("journaldate").value=date;
+    $("journaldaylabel").textContent=prettyDate(date);
+    $("notes").value=currentEntry(date).notes||"";
+    const list=$("entrylist");
+    list.replaceChildren();
+    const dates=Object.keys(state.checkins).filter(d=>{
+      const e=state.checkins[d]||{};
+      return (e.notes||"").trim() || (e.symptoms||[]).length || e.mood || e.energy || (e.supportNeeds||[]).length || (e.supportNote||"").trim();
+    }).sort((a,b)=>b.localeCompare(a));
+    if(!dates.length){
+      const p=document.createElement("p");
+      p.className="small";p.textContent="Your saved days will appear here as you add entries.";
+      list.appendChild(p);return;
+    }
+    dates.forEach(d=>{
+      const e=state.checkins[d]||{};
+      const btn=document.createElement("button");btn.className="entry-card";
+      const title=document.createElement("strong");title.textContent=prettyDate(d);btn.appendChild(title);
+      const details=[];
+      if(e.notes)details.push(e.notes);
+      if(e.symptoms&&e.symptoms.length)details.push("Symptoms: "+e.symptoms.join(", "));
+      if(e.mood)details.push("Mood: "+e.mood);
+      if(e.supportNeeds&&e.supportNeeds.length)details.push("Support: "+e.supportNeeds.join(", "));
+      const p=document.createElement("p");p.textContent=details.join(" · ")||"Daily check-in";btn.appendChild(p);
+      btn.onclick=()=>{$("journaldate").value=d;renderJournal();window.scrollTo({top:0,behavior:"smooth"});};
+      list.appendChild(btn);
     });
-    $("mood").value = entry.mood || "";
-    $("energy").value = entry.energy || "";
-    $("notes").value = entry.notes || "";
   }
-  $("entrydate").addEventListener("change", loadCheckin);
 
-  function render() {
-    $("lastperiod").value = state.lastPeriod || "";
-    $("cyclelength").value = state.cycleLength || 28;
-    $("periodlength").value = state.periodLength || 5;
-    $("entrydate").value ||= today();
-    loadCheckin();
+  function loadSymptoms(){
+    const date=$("symdate").value||today();$("symdate").value=date;
+    const e=currentEntry(date);
+    document.querySelectorAll("#symptomlist input").forEach(box=>box.checked=(e.symptoms||[]).includes(box.value));
+    $("mood").value=e.mood||"";$("energy").value=e.energy||"";
+  }
+  function loadSupport(){
+    const date=$("supportdate").value||today();$("supportdate").value=date;
+    const e=currentEntry(date);
+    document.querySelectorAll("#supportlist input").forEach(box=>box.checked=(e.supportNeeds||[]).includes(box.value));
+    $("supportnote").value=e.supportNote||"";
+  }
 
-    if (!state.lastPeriod) {
-      $("cycleday").textContent = "—";
-      $("daycaption").textContent = "CYCLE DAY";
-      $("phase").textContent = "Add the first day of your last period.";
-      $("prediction").textContent = "Estimates appear after you add your last period.";
+  function scheduleSave(statusId){
+    dirty=true;
+    msg(statusId,"Saving changes…");
+    if(saveTimer)clearTimeout(saveTimer);
+    saveTimer=setTimeout(()=>saveState(statusId),700);
+  }
+
+  function updateEntry(date,patch){
+    state.checkins[date]={...blankEntry(),...currentEntry(date),...patch};
+    const e=state.checkins[date];
+    const empty=!e.notes.trim()&&!e.symptoms.length&&!e.mood&&!e.energy&&!e.supportNeeds.length&&!e.supportNote.trim();
+    if(empty)delete state.checkins[date];
+  }
+
+  $("journaldate").value=today();
+  $("symdate").value=today();
+  $("supportdate").value=today();
+
+  $("journaldate").addEventListener("change",()=>{
+    renderJournal();msg("journalstatus","Viewing "+prettyDate($("journaldate").value)+".");
+  });
+  $("symdate").addEventListener("change",loadSymptoms);
+  $("supportdate").addEventListener("change",loadSupport);
+
+  $("notes").addEventListener("input",()=>{
+    const date=$("journaldate").value||today();
+    updateEntry(date,{notes:$("notes").value});
+    scheduleSave("journalstatus");
+    renderEntryListSoon();
+  });
+  function renderEntryListSoon(){
+    if(saveTimer)clearTimeout(saveTimer);
+    dirty=true;
+    msg("journalstatus","Saving changes…");
+    saveTimer=setTimeout(async()=>{
+      await saveState("journalstatus");
+      renderJournalListOnly();
+    },700);
+  }
+  function renderJournalListOnly(){
+    const selected=$("journaldate").value;
+    renderJournal();
+    $("journaldate").value=selected;
+    $("notes").value=currentEntry(selected).notes||"";
+  }
+
+  function onSymptomsChange(){
+    const date=$("symdate").value||today();
+    updateEntry(date,{
+      symptoms:[...document.querySelectorAll("#symptomlist input:checked")].map(x=>x.value),
+      mood:$("mood").value,energy:$("energy").value
+    });
+    scheduleSave("symptomstatus");
+  }
+  document.querySelectorAll("#symptomlist input").forEach(x=>x.addEventListener("change",onSymptomsChange));
+  $("mood").addEventListener("change",onSymptomsChange);
+  $("energy").addEventListener("change",onSymptomsChange);
+
+  function onSupportChange(){
+    const date=$("supportdate").value||today();
+    updateEntry(date,{
+      supportNeeds:[...document.querySelectorAll("#supportlist input:checked")].map(x=>x.value),
+      supportNote:$("supportnote").value
+    });
+    scheduleSave("supportstatus");
+  }
+  document.querySelectorAll("#supportlist input").forEach(x=>x.addEventListener("change",onSupportChange));
+  $("supportnote").addEventListener("input",onSupportChange);
+
+  async function saveState(statusId){
+    if(!user||!ownerId)return;
+    if(saving){
+      if(saveTimer)clearTimeout(saveTimer);
+      saveTimer=setTimeout(()=>saveState(statusId),500);
       return;
     }
-
-    const cycleLength = Number(state.cycleLength) || 28;
-    const periodLength = Number(state.periodLength) || 5;
-    const elapsed = dateDiff(state.lastPeriod,today());
-    if (elapsed < 0) {
-      $("cycleday").textContent = "—";
-      $("phase").textContent = "Your selected period date is in the future.";
-      $("prediction").textContent = "Check your last period date.";
-      return;
-    }
-    const day = (elapsed % cycleLength) + 1;
-    const nextPeriod = addDays(state.lastPeriod, Math.ceil((elapsed+1)/cycleLength)*cycleLength);
-    $("cycleday").textContent = day;
-    $("daycaption").textContent = "CYCLE DAY";
-    $("phase").textContent = day <= periodLength ? "Estimated period days" : "Estimated cycle phase";
-    $("prediction").textContent = "Next period estimate: " + nextPeriod + " · Estimates can vary.";
-  }
-
-  function collectSettings() {
-    const cycleLength = Number($("cyclelength").value);
-    const periodLength = Number($("periodlength").value);
-    if (!cycleLength || cycleLength < 15 || cycleLength > 60) throw new Error("Cycle length must be between 15 and 60 days.");
-    if (!periodLength || periodLength < 1 || periodLength > 15) throw new Error("Period length must be between 1 and 15 days.");
-    state.lastPeriod = $("lastperiod").value;
-    state.cycleLength = cycleLength;
-    state.periodLength = periodLength;
-  }
-
-  function collectCheckin() {
-    const date = $("entrydate").value;
-    if (!date) throw new Error("Choose a date for your check-in.");
-    const symptoms = [...document.querySelectorAll("#symptoms input:checked")].map(box => box.value);
-    const entry = {
-      symptoms,
-      mood:$("mood").value,
-      energy:$("energy").value,
-      notes:$("notes").value
-    };
-    if (!symptoms.length && !entry.mood && !entry.energy && !entry.notes.trim()) {
-      delete state.checkins[date];
-    } else {
-      state.checkins[date] = entry;
-    }
-  }
-
-  async function saveAll() {
-    message("savemsg", "Saving and syncing…");
-    $("save").disabled = true;
-    try {
-      collectSettings();
-      collectCheckin();
-      const {error} = await db.from("taynz_tracker_state").upsert({
-        owner_id:ownerId,
-        state,
-        updated_at:new Date().toISOString()
+    saving=true;
+    try{
+      const {error}=await db.from("taynz_tracker_state").upsert({
+        owner_id:ownerId,state,updated_at:new Date().toISOString()
       },{onConflict:"owner_id"});
-      if (error) throw error;
-      render();
-      message("savemsg", "Saved. Your approved trusted person can see the update.");
-    } catch (err) {
-      message("savemsg", err.message || "Could not save. Check your connection and database setup.");
-    } finally {
-      $("save").disabled = false;
-    }
+      if(error)throw error;
+      dirty=false;
+      msg(statusId,"Saved ✓");
+    }catch(err){
+      msg(statusId,"Couldn't save: "+(err.message||"Please check your connection."));
+    }finally{saving=false;}
   }
-  $("save").onclick = saveAll;
 
-  async function loadState() {
-    const {data,error} = await db.from("taynz_tracker_state")
+  async function loadState(){
+    const {data,error}=await db.from("taynz_tracker_state")
       .select("state,updated_at").eq("owner_id",ownerId).maybeSingle();
-    if (error) throw error;
-    if (data && data.state) {
-      state = {...state,...data.state,checkins:data.state.checkins || {}};
-    } else if (ownerId === user.id) {
-      const {error:insertError} = await db.from("taynz_tracker_state").insert({
+    if(error)throw error;
+    if(data&&data.state){
+      state={...state,...data.state,checkins:data.state.checkins||{}};
+    }else if(ownerId===user.id){
+      const {error:insertError}=await db.from("taynz_tracker_state").insert({
         owner_id:ownerId,state,updated_at:new Date().toISOString()
       });
-      if (insertError) throw insertError;
-    } else {
-      throw new Error("The tracker has not been set up by its owner yet. Ask them to sign in and open Taynz first.");
+      if(insertError)throw insertError;
+    }else{
+      throw new Error("Your trusted person's tracker hasn't been created yet. Ask them to sign in first.");
     }
-    render();
+    renderHome();renderJournal();loadSymptoms();loadSupport();
   }
 
-  async function loadShareInfo() {
-    if (ownerId !== user.id) return;
-    const {data,error} = await db.rpc("taynz_get_share_info");
-    if (error) throw error;
-    const email = data && data.email;
-    $("sharestatus").textContent = email ? "Approved trusted account: " + email : "No trusted person is currently approved.";
+  async function loadShareInfo(){
+    if(ownerId!==user.id)return;
+    const {data,error}=await db.rpc("taynz_get_share_info");
+    if(error)throw error;
+    const email=data&&data.email;
+    msg("sharestatus",email?"Approved account: "+email:"No trusted person approved yet.");
     $("revoke").classList.toggle("hidden",!email);
   }
 
-  async function startApp(signedInUser) {
-    user = signedInUser;
-    message("authmsg","");
-    const {data:owner,error} = await db.rpc("taynz_get_tracker_owner");
-    if (error) throw error;
-    ownerId = owner;
-    $("auth").classList.add("hidden");
-    $("app").classList.remove("hidden");
-    $("signout").classList.remove("hidden");
-    $("greeting").textContent = "Welcome back.";
-    $("accesslabel").textContent = ownerId === user.id
-      ? "Your cycle information is private unless you approve someone."
-      : "You are viewing a tracker shared with your account.";
-    $("ownercontrols").classList.toggle("hidden",ownerId !== user.id);
-    $("membernotice").classList.toggle("hidden",ownerId === user.id);
-
-    await loadState();
-    await loadShareInfo();
-    subscribeRealtime();
-
-    if (refreshTimer) clearInterval(refreshTimer);
-    // Re-check access periodically so a revoked member's page clears promptly.
-    refreshTimer = setInterval(checkAccess,10000);
+  async function startApp(signedInUser){
+    user=signedInUser;
+    const {data:resolvedOwner,error}=await db.rpc("taynz_get_tracker_owner");
+    if(error)throw error;
+    ownerId=resolvedOwner;
+    $("auth").classList.add("hidden");$("app").classList.remove("hidden");
+    $("navbar").classList.remove("hidden");$("signout").classList.remove("hidden");
+    $("ownercontrols").classList.toggle("hidden",ownerId!==user.id);
+    $("membernotice").classList.toggle("hidden",ownerId===user.id);
+    await loadState();await loadShareInfo();subscribeRealtime();
+    setTab("home");
+    if(refreshTimer)clearInterval(refreshTimer);
+    refreshTimer=setInterval(checkAccess,10000);
   }
 
-  async function checkAccess() {
-    if (!user || !ownerId) return;
-    try {
-      const {data,error} = await db.rpc("taynz_get_tracker_owner");
-      if (error) throw error;
-      if (data !== ownerId) {
-        state = {lastPeriod:"",cycleLength:28,periodLength:5,checkins:{}};
-        if (channel) await db.removeChannel(channel);
-        channel = null;
-        ownerId = null;
-        if (refreshTimer) clearInterval(refreshTimer);
-        refreshTimer = null;
-        $("app").classList.add("hidden");
-        $("signout").classList.add("hidden");
-        $("auth").classList.remove("hidden");
-        message("authmsg","Your access has changed. Please sign in again.");
+  function subscribeRealtime(){
+    if(channel)db.removeChannel(channel);
+    channel=db.channel("taynz-state-"+ownerId)
+      .on("postgres_changes",{event:"UPDATE",schema:"public",table:"taynz_tracker_state",filter:"owner_id=eq."+ownerId},payload=>{
+        if(dirty||saving)return;
+        if(payload.new&&payload.new.state){
+          state={...state,...payload.new.state,checkins:payload.new.state.checkins||{}};
+          renderHome();renderJournal();loadSymptoms();loadSupport();
+          if(activeTab==="journal")msg("journalstatus","Latest shared changes synced ✓");
+          if(activeTab==="symptoms")msg("symptomstatus","Latest shared changes synced ✓");
+          if(activeTab==="support")msg("supportstatus","Latest shared changes synced ✓");
+        }
+      })
+      .on("postgres_changes",{event:"INSERT",schema:"public",table:"taynz_tracker_state",filter:"owner_id=eq."+ownerId},payload=>{
+        if(dirty||saving)return;
+        if(payload.new&&payload.new.state){
+          state={...state,...payload.new.state,checkins:payload.new.state.checkins||{}};
+          renderHome();renderJournal();loadSymptoms();loadSupport();
+        }
+      }).subscribe();
+  }
+
+  async function checkAccess(){
+    if(!user||!ownerId)return;
+    try{
+      const {data,error}=await db.rpc("taynz_get_tracker_owner");
+      if(error||data!==ownerId){
+        state={lastPeriod:"",cycleLength:28,periodLength:5,checkins:{}};
+        if(channel)await db.removeChannel(channel);
+        channel=null;ownerId=null;
+        if(refreshTimer)clearInterval(refreshTimer);
+        refreshTimer=null;
+        $("app").classList.add("hidden");$("navbar").classList.add("hidden");
+        $("signout").classList.add("hidden");$("auth").classList.remove("hidden");
+        msg("authmsg","Your access has changed. Please sign in again.");
         await db.auth.signOut();
       }
-    } catch (_) {
-      // Do not expose data from a newly loaded tracker after an access check fails.
-    }
+    }catch(_){}
   }
 
-  function subscribeRealtime() {
-    if (channel) db.removeChannel(channel);
-    channel = db.channel("taynz-state-" + ownerId)
-      .on("postgres_changes",{
-        event:"UPDATE",schema:"public",table:"taynz_tracker_state",
-        filter:"owner_id=eq." + ownerId
-      },payload => {
-        if (payload.new && payload.new.state) {
-          state = {...state,...payload.new.state,checkins:payload.new.state.checkins || {}};
-          render();
-          message("savemsg","Synced with the latest shared update.");
-        }
-      })
-      .on("postgres_changes",{
-        event:"INSERT",schema:"public",table:"taynz_tracker_state",
-        filter:"owner_id=eq." + ownerId
-      },payload => {
-        if (payload.new && payload.new.state) {
-          state = {...state,...payload.new.state,checkins:payload.new.state.checkins || {}};
-          render();
-        }
-      })
-      .subscribe();
-  }
-
-  $("approve").onclick = async () => {
-    const email = $("inviteemail").value.trim();
-    if (!email) return message("sharestatus","Enter their account email first.");
-    $("approve").disabled = true;
-    message("sharestatus","Approving…");
-    try {
-      const {error} = await db.rpc("taynz_approve_trusted_email",{invited_email:email});
-      if (error) throw error;
-      $("inviteemail").value = "";
+  $("approve").onclick=async()=>{
+    const email=$("inviteemail").value.trim();
+    if(!email)return msg("sharestatus","Enter their account email first.");
+    $("approve").disabled=true;msg("sharestatus","Approving…");
+    try{
+      const {error}=await db.rpc("taynz_approve_trusted_email",{invited_email:email});
+      if(error)throw error;
+      $("inviteemail").value="";
       await loadShareInfo();
-      message("sharestatus","Trusted person approved. They can sign in with their own confirmed account.");
-    } catch (err) {
-      message("sharestatus",err.message || "Could not approve this account.");
-    } finally {
-      $("approve").disabled = false;
-    }
+      msg("sharestatus","Trusted person approved. They can sign in using their own confirmed account.");
+    }catch(err){msg("sharestatus",err.message||"Could not approve this account.");}
+    finally{$("approve").disabled=false;}
   };
 
-  $("revoke").onclick = async () => {
-    if (!confirm("Revoke this person's access to your tracker?")) return;
-    $("revoke").disabled = true;
-    try {
-      const {error} = await db.rpc("taynz_revoke_trusted_access");
-      if (error) throw error;
-      await loadShareInfo();
-      message("sharestatus","Access revoked.");
-    } catch (err) {
-      message("sharestatus",err.message || "Could not revoke access.");
-    } finally {
-      $("revoke").disabled = false;
-    }
+  $("revoke").onclick=async()=>{
+    if(!confirm("Revoke this person's access to your tracker?"))return;
+    $("revoke").disabled=true;
+    try{
+      const {error}=await db.rpc("taynz_revoke_trusted_access");
+      if(error)throw error;
+      await loadShareInfo();msg("sharestatus","Access revoked.");
+    }catch(err){msg("sharestatus",err.message||"Could not revoke access.");}
+    finally{$("revoke").disabled=false;}
   };
 
-  $("signout").onclick = async () => {
-    if (channel) await db.removeChannel(channel);
-    channel = null;
-    if (refreshTimer) clearInterval(refreshTimer);
-    refreshTimer = null;
+  $("signout").onclick=async()=>{
+    if(channel)await db.removeChannel(channel);
+    channel=null;
+    if(refreshTimer)clearInterval(refreshTimer);
+    refreshTimer=null;
     await db.auth.signOut();
-    user = null;
-    ownerId = null;
-    state = {lastPeriod:"",cycleLength:28,periodLength:5,checkins:{}};
-    $("app").classList.add("hidden");
-    $("signout").classList.add("hidden");
-    $("auth").classList.remove("hidden");
-    message("authmsg","Signed out.");
+    user=null;ownerId=null;
+    state={lastPeriod:"",cycleLength:28,periodLength:5,checkins:{}};
+    $("app").classList.add("hidden");$("navbar").classList.add("hidden");
+    $("signout").classList.add("hidden");$("auth").classList.remove("hidden");
+    msg("authmsg","Signed out.");
   };
 
-  db.auth.getSession().then(async ({data,error}) => {
-    if (error) return message("authmsg",error.message);
-    if (data.session) {
-      try { await startApp(data.session.user); }
-      catch (err) {
-        $("auth").classList.remove("hidden");
-        $("app").classList.add("hidden");
-        message("authmsg",err.message || "Could not load your tracker. Check the Supabase database setup.");
+  db.auth.getSession().then(async({data,error})=>{
+    if(error)return msg("authmsg",error.message);
+    if(data.session){
+      try{await startApp(data.session.user);}
+      catch(err){
+        $("auth").classList.remove("hidden");$("app").classList.add("hidden");
+        $("navbar").classList.add("hidden");
+        msg("authmsg",err.message||"Couldn't load the tracker. Check your database setup.");
       }
     }
   });
 
-  db.auth.onAuthStateChange((event,session) => {
-    if (event === "SIGNED_OUT") {
-      $("app").classList.add("hidden");
-      $("signout").classList.add("hidden");
-      $("auth").classList.remove("hidden");
+  db.auth.onAuthStateChange(event=>{
+    if(event==="SIGNED_OUT"){
+      $("app").classList.add("hidden");$("navbar").classList.add("hidden");
+      $("signout").classList.add("hidden");$("auth").classList.remove("hidden");
     }
   });
 })();
