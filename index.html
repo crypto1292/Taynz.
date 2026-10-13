@@ -32,8 +32,10 @@ body{margin:0;background:var(--bg);color:var(--text);font:16px "Avenir Next",-ap
 button,input,textarea,select{font:inherit}
 button{cursor:pointer}
 main{width:min(100%,600px);margin:auto;padding:calc(22px + env(safe-area-inset-top)) 17px 110px}
-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
-.hdr-actions{display:flex;gap:8px;align-items:center}
+header{display:flex;flex-direction:column;align-items:center;gap:2px;margin-bottom:18px}
+.hdr-actions{display:flex;gap:8px;align-items:center;align-self:flex-end}
+.brand{text-align:center}
+.tagline{font-size:13px;color:var(--muted);margin-top:2px}
 .themebtn{padding:9px 12px;font-size:12px;min-height:44px;white-space:nowrap}
 .logo{font-size:28px;font-weight:900;letter-spacing:-1px}
 .logo span{color:var(--pink)}
@@ -83,6 +85,10 @@ button:disabled{opacity:.55;cursor:wait}
 .cycle-dot.today::before{transform:rotate(var(--rot,0deg)) scale(1.5)}
 .cycle-dot.today::after{background:var(--dot);opacity:.22}
 .cycle-dot.selected::after{border:2px solid var(--text);opacity:1;background:transparent}
+.periodbtn{display:block;margin:6px auto 4px;border-radius:99px;padding:12px 24px;min-height:44px}
+.success-glow{position:fixed;inset:0;pointer-events:none;z-index:50;opacity:0;box-shadow:inset 0 0 90px 30px rgba(63,164,106,.6)}
+.success-glow.on{animation:glow 1.5s ease-out}
+@keyframes glow{0%{opacity:0}25%{opacity:1}100%{opacity:0}}
 .calendar-legend{display:flex;justify-content:center;flex-wrap:wrap;gap:12px;margin:6px 0 14px;font-size:11px;color:var(--muted)}
 .legend-item{display:flex;align-items:center;gap:5px}
 .legend-dot{width:8px;height:8px;border-radius:50%;display:inline-block}
@@ -150,10 +156,13 @@ footer{text-align:center;color:var(--muted);font-size:12px;margin-top:24px;line-
 <body>
 <main>
 <header>
-  <div class="logo">Taynz<span>.</span></div>
   <div class="hdr-actions">
     <button id="themebtn" class="ghost themebtn" type="button">◐ Auto</button>
     <button id="signout" class="secondary hidden">Sign out</button>
+  </div>
+  <div class="brand">
+    <div class="logo">Taynz<span>.</span></div>
+    <div class="tagline">Track your moods, so no one's rudes.</div>
   </div>
 </header>
 
@@ -179,9 +188,6 @@ footer{text-align:center;color:var(--muted);font-size:12px;margin-top:24px;line-
 
 <section id="app" class="hidden">
   <div id="home" class="section">
-    <h1>Hi, welcome back.</h1>
-    <p class="muted">A little space to check in with yourself.</p>
-
     <div class="panel">
       <div class="topline">
         <h2 style="margin:0">Your cycle</h2>
@@ -197,6 +203,9 @@ footer{text-align:center;color:var(--muted);font-size:12px;margin-top:24px;line-
         </div>
         <div class="cycle-dots" id="cycledots" aria-label="Select a cycle day"></div>
       </div>
+
+      <button id="periodover" class="secondary periodbtn" type="button">Period over?</button>
+      <div id="periodmsg" class="status" role="status" style="text-align:center"></div>
 
       <div class="calendar-legend">
         <span class="legend-item"><i class="legend-dot" style="background:#ff405d"></i>Period</span>
@@ -363,6 +372,8 @@ footer{text-align:center;color:var(--muted);font-size:12px;margin-top:24px;line-
   <footer>Cycle predictions are estimates, not contraception or medical advice. Your personal entries are stored in your connected Supabase project.</footer>
 </section>
 </main>
+
+<div id="glow" class="success-glow" aria-hidden="true"></div>
 
 <nav id="navbar" class="navbar hidden" aria-label="Main navigation">
   <div class="navinner">
@@ -615,6 +626,29 @@ footer{text-align:center;color:var(--muted);font-size:12px;margin-top:24px;line-
     selectedCycleDay=null;
     await saveState("cyclemsg");
     renderHome();
+  };
+
+  $("periodover").onclick=async()=>{
+    if(!state.lastPeriod) return msg("periodmsg","Add your last period first.");
+    const elapsed=dateDiff(state.lastPeriod,today());
+    if(elapsed<0) return msg("periodmsg","Check your period date first.");
+    const cycle=Math.max(15,Math.min(60,Number(state.cycleLength)||28));
+    const period=Math.max(1,Math.min(15,Number(state.periodLength)||5));
+    const todayDay=(elapsed%cycle)+1;
+    let text="Got it, period marked as over ✓";
+    if(todayDay!==period&&todayDay<=10){
+      state.periodLength=todayDay;
+      selectedCycleDay=null;
+      await saveState("periodmsg");
+      if(dirty) return;
+      renderHome();
+      text="Done, period length updated to "+todayDay+(todayDay===1?" day":" days")+" ✓";
+    }
+    msg("periodmsg",text);
+    const g=$("glow");
+    g.classList.remove("on");
+    void g.offsetWidth;
+    g.classList.add("on");
   };
 
   function renderJournal(){
